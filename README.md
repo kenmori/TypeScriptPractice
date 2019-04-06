@@ -59,20 +59,40 @@ const tupleStrNum = ["x", 2] as [string, number];
 //const tupleStrNum: [string, number] = ["X", 2];
 ```
 
-**問**
+**問 5**. 名前を変えずに既存の`Foo型 {x: number}`にメンバー `y:number`を追加してください
 
 ```ts
+type Foo = {
+  x: number;
+};
+// ... elsewhere ...
+type Foo = {
+  //Error
+  y: number;
+};
 ```
 
 ```ts
+interface Foo {
+  x: number;
+}
+// ... elsewhere ...
+interface Foo {
+  y: number;
+}
+let a: Foo = { x: 1, y: 2 };
 ```
 
-**問**
+**問** 6. 下記はなぜエラーが出るのかお答えください
 
 ```ts
+namespace A {}
+var B = A;
 ```
 
 ```ts
+namespace A {} //non-instanted なので名前空間宣言空間にのみ宣言されている
+var B = A; //=で代入できるのは変数宣言空間のみなのでAは見つからない
 ```
 
 **問**
