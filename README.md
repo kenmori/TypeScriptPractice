@@ -1,10 +1,10 @@
-# TypeScript 練習問題集
+# TypeScript 練習問題集(Practice)
 
-<img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" />
+<img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
 更新情報
 
-```
+```txt
 - 問題を追加 (8/7)
 - 問題を追加 50問完成 (7/28)
 - 問題を追加 (7/27)
@@ -18,6 +18,7 @@
 - 随時更新して行きますのでスターつけていただけると励みになります。
 
 TODO
+
 - まだまだ文中の文言、整っていません。とりあえず50問作ってその後個々に対して内容精査
 
 **問1**
@@ -47,6 +48,7 @@ type Foo = {
     age?: number;
 }
 ```
+
 Fooが持つプロパティ全てreadOnlyにしてください
 
 ```ts
@@ -63,6 +65,7 @@ type Foo = {
     age?: number;
 }
 ```
+
 の`Foo`から`name`だけを取得したtypeを作ってください
 
 ```ts
@@ -70,7 +73,6 @@ type Picked = Pick<Foo, "name">
 ```
 
 **問4**
-
 
 こちら
 
@@ -91,7 +93,6 @@ type Omited = Omit<Foo, "age">;
 // }
 ```
 
-
 **問5**
 
 こちら
@@ -103,7 +104,6 @@ const user = { name: "kenji", age: 98};
 のuserに推論される型は何ですか。またその理由を教えてください。
 
 ```ts
-
 {name: string, age: number}
 
 JavaScriptのオブジェクトはconstであれ(freezeしない限り)書き込みが可能です。
@@ -119,7 +119,7 @@ as constか型注釈をすることです。(下記playground)
 
 `T extends U ? X : Y` はどのような意味になりますか 
 
-```
+```ts
 // Conditional types
 
 T extends U ? X : Y;
@@ -133,16 +133,15 @@ T extends U ? X : Y;
 
 ```
 
-
 **問7**
 
 下記
 
 ```ts
 interface Part {
-    name: string,
-    age: number,
-    add(): number
+  name: string,
+  age: number,
+  add(): number
 }
 ```
 
@@ -150,19 +149,19 @@ interface Part {
 
 ```ts
 interface Part {
-    name: string,
-    age: number,
-    add(): number
+  name: string,
+  age: number,
+  add(): number
 }
 
 const obj = {
-    name: "kenji",
-    age: 99,
-    add: () => 1 * 2
+  name: "kenji",
+  age: 99,
+  add: () => 1 * 2
 }
 
 type FunctionPropertyNames<T> = {
-    [K in keyof T]: T[K] extends Function ? K : never
+  [K in keyof T]: T[K] extends Function ? K : never
 }[keyof T]
 
 type result = FunctionPropertyNames<Part>
@@ -203,82 +202,80 @@ if(bool){
 }
 
 // 2. return文が無く、かつ(無限ループなどで)関数末尾に到達しない関数/アロー関数に対して推論される戻り値の型
- ```
- 
+```
+
  **問9**
 
 これは
- 
- ```ts
- (...args: any[]) => any
- ```
- 
+
+```ts
+(...args: any[]) => any
+```
+
  どういう意味ですか？
- 
+
  ```ts
 // 関数ならなんでもOK
  ```
- 
- 
+
  Type inference in Conditional types
- 
+
  **問10**
 
 これは
- 
+
  ```ts
  type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+
  ```
- 
+
  なにをする型か説明してください(とくに`infer`)
 
- 
  ```ts
 // Tが関数ならその関数の戻り値をRにキャプチャしてそれを返す
 ```
- 
+
   **問11**
-  
+
  非同期の中身を取る型を書いてください
- 
+
  ```ts
- type ResolvedType<T> =
-  T extends Promise<infer R> ? R :
-  T extends Observable<infer R> ? R :
-  T;
-  ```
-  
+type ResolvedType<T> =
+T extends Promise<infer R> ? R :
+T extends Observable<infer R> ? R :
+T;
+```
+
 **問12**
 
 Nullableな型を作ってください
-  
-  ```ts
-  type PropNullable<T> = {[P in keyof T]: T[P] | null};
+
+```ts
+type PropNullable<T> = {[P in keyof T]: T[P] | null};
 
 interface User {name: string, age: number, money: null}
 
 const obj:PropNullable<User> = {name: "kenji", age: 99, money: null}
 ```
- 
- 
+
 **問13**
 
 こちら
- 
- ```ts
-  let createObj = (obj) => {
-     let o = {}
-     for(const key in obj){
-        o[key] = String(obj[key]);
-     }
-     return o;
-  }
 
- const anotherFun = createObj;
- ```
- 
+ ```ts
+let createObj = (obj) => {
+    let o = {}
+    for(const key in obj){
+      o[key] = String(obj[key]);
+    }
+    return o;
+}
+
+const anotherFun = createObj;
+```
+
 のcreateObj型を定義してください
- 
+
  ```ts
   let createObj = <T>(obj:T): { [P in keyof T]: string} => {
      let o = {} as {[P in keyof T]: string}
@@ -290,21 +287,23 @@ const obj:PropNullable<User> = {name: "kenji", age: 99, money: null}
 
  const anotherFun = createObj;
  ```
- 
+
  **問14**
  TODO
- ```
+
+ ```ts
  neverはunion型の中では消えるを問題にする
  ```
- 
+
  **問15**
  こちらの
+
  ```ts
  arr(["a", 1]);
 ```
 
 どんな要素の配列が渡されてもいいような型を作ってください。
- 
+
  ```ts
  let arr = <T extends any[]>(...rest: T) => {
     return rest
@@ -330,11 +329,9 @@ let a: "a" = "a" //"a"
 このように型注釈をつけることでa型というリテラル型になる(型注釈はwideningより優先される)
 ```
 
-
 **問17**
 
 下記
-
 
 ```ts
 let a;
@@ -359,7 +356,7 @@ a宣言時に初期化されていない & 型注釈されていないことでi
 ```ts
 //WIP
 
-let nullOrString: string | null = "string" 
+let nullOrString: string | null = "string"
 
 console.log(nullOrString.length) //string。union型が失われるが...
 
@@ -370,15 +367,18 @@ nullOrString = "stringAgein"; // 注釈はstring | nullのまま
 nullOrString = 123; // Error
 
 ```
+
 [playground](https://www.typescriptlang.org/play/index.html#code/DYUwLgBAdgrswHkBOBlMSCWUDmAuCAzulthAD7RzAQC8EAREZjvRAFBsDGA9lAd6AB0wbtgAUseMjTNswkDjAALAJQQA9OqYlAQAwwoGXoGj1QDIMgRk1A8QyAYhkDRDCcEOOkxKmI5aleBvWBjuUCmioD3yoC-AYRupBTOgNYMgFYMgMYMgGYMgCIMNk5U0mEejGEAgtggWPQA3N4QgBc2gBOJgPYM2u4RVIB2DIB+DI2pUq6yHgCMAEwAzMWaEACiSEjcSEA)
 
 **問19**
 
 こちら
+
 ```ts
 let a = 1
 const num = a && "hoge";
 ```
+
 型推論は何ですか
 
 ```ts
@@ -453,7 +453,7 @@ const res = apply(100, num => String(num ** 2));
 引数の型より型変数の推論ができていないといけない
 |
 型引数の推論と、引数で関数を渡す場合のその引数の型推論はどのような順番で解決されるか
-^
+
 contextual typingが必要な引数だけ後回しにする
 
 `apply(100, num => String(num ** 2))`
@@ -470,13 +470,7 @@ Tの型引数の推論結果はその型引数が使われた時点で確定す�
 
 [型推論結果は処理の順番に依存する](https://qiita.com/uhyo/items/6acb7f4ee73287d5dac0)
 
-
-
 オーバーロードシグネチャ
-
-
-```ts
-```
 
 **問23**
 
@@ -494,10 +488,9 @@ function foo(obj: MyObj): string {
 
 の `!`の意味、危険性について説明をしてください。
 
-
 **問24**
 
-こちらの 
+こちらの
 
 ```ts
 function isStringArray(obj: unknown): obj is Array<string> {
@@ -507,7 +500,7 @@ function isStringArray(obj: unknown): obj is Array<string> {
 function foo(obj: unknown) {
   if (isStringArray(obj)) {
     obj.push("abcde");
-  } 
+  }
 }
 ```
 `obj is Array<string>`の説明をしてください
@@ -518,8 +511,6 @@ function foo(obj: unknown) {
 isStringArray関数の返値がtrueならobjは`Array<string>型`が返ることを指定しています。
 ```
 
-
-
 **問25**
 
 こちらの
@@ -529,6 +520,7 @@ isStringArray関数の返値がtrueならobjは`Array<string>型`が返ること
   return "return";
 }
 ```
+
 'num' is declared but never used.をdisableしてください
 
 ```ts
@@ -537,12 +529,11 @@ isStringArray関数の返値がtrueならobjは`Array<string>型`が返ること
 }
 ```
 
-
 **問26**
 
 WIP enumの使い方 1
 
-```
+```ts
 enum Weekend {
   Friday = 1,
   Saturday,
@@ -567,21 +558,21 @@ enum Weekend {
 const value = someString as Weekend;
 if (value === Weekend.Friday || value === Weekend.Sunday){
     console.log('You choose a weekend');
-    console.log(value); 
+    console.log(value);
 }
 
-enumを使用するのが最適かつ非常に効率的な場所と適切な使用例があります
+// enumを使用するのが最適かつ非常に効率的な場所と適切な使用例があります
 
-列挙型は、他のTypeScriptデータ型と同じように、配列の初期化内で使用できます。
-これは簡単な例です。
+// 列挙型は、他のTypeScriptデータ型と同じように、配列の初期化内で使用できます。
+// これは簡単な例です。
 
 enum NigerianLanguage {
   Igbo,
-  Hause, 
+  Hause,
   Yoruba
 }
 
-//can be used in array initialisation 
+//can be used in array initialisation
 let citizen = {
   Name: 'Ugwunna',
   Age: 75,
@@ -599,15 +590,14 @@ enum Days {
   Saturday
 }
 
-列挙型は、文字列または定数を変数で表す必要がある場所でも使用できます。
+// 列挙型は、文字列または定数を変数で表す必要がある場所でも使用できます。
 
-TypeScriptの列挙型は、次の場所では使用しないでください。
+// TypeScriptの列挙型は、次の場所では使用しないでください。
 
-列挙型メンバーの値を再割り当てまたは変更する予定の場合、enumは型保証されているため、再割り当て時にコンパイルエラーが返されます。
-動的な値を記録したい場合、enumは有限項目に最も適しており、その背後にある一般的な考え方はユーザー定義の定数システムを作成するのを助けることでした
-列挙型を変数として使用することはできません。そうするとエラーが返されます
+// 列挙型メンバーの値を再割り当てまたは変更する予定の場合、enumは型保証されているため、再割り当て時にコンパイルエラーが返されます。
+// 動的な値を記録したい場合、enumは有限項目に最も適しており、その背後にある一般的な考え方はユーザー定義の定数システムを作成するのを助けることでした
+// 列挙型を変数として使用することはできません。そうするとエラーが返されます
 ```
-
 
 **問27**
 
@@ -618,7 +608,6 @@ WIP unknown type
 
 [unknown type](https://mariusschulz.com/blog/the-unknown-type-in-typescript)
 
-
 **問28**
 
 こちらのエラーをnumberとstringに対応できるように修正してください。
@@ -628,7 +617,7 @@ function eachItem(val: number, i: number) {
     return val.toExponential(3);
 }
 const arr = [4, "fafa", 6];
-arr.map(eachItem); 
+arr.map(eachItem);
 ```
 
 **問29**
@@ -712,7 +701,6 @@ let arr: (string | null)[] = []
 
 [playground](http://www.typescriptlang.org/play/index.html#code/MYewdgzgLgBAhgJwQLgBTQQSzAcxgHxjAFcAbUgSgG0BdGAXhloFgAoNxBAOgAdiIAFqhLkKAbjahIIUgFMupEDlSdxQA
 
-
 **問32**
 
 こちらの
@@ -725,6 +713,7 @@ type F = {
 }
 const E:F = { foo: "fafa", bar: "fafa"} //Error
 ```
+
 定義元のFを直接編集せずに代入できるように型付けしてください
 
 ```ts
@@ -735,8 +724,6 @@ type F = {
 
 const E:Record<keyof F, string> = { foo: "fafa", bar: "fafa"}
 ```
-
-
 
 **問33**
 
@@ -791,16 +778,14 @@ export defaut function person({ detail = {} as Detail} : Person) {
 
 reactでsetStateをする際に
 
-
 ```ts
-
 interface State {
  name: string
  age: number
 }
 
-this.setState({name: "kenji"}) // Error 
-this.setState({name: "kenji", age: this.state.age}}; // ok
+this.setState({name: "kenji"}) // Error
+this.setState({name: "kenji", age: this.state.age}); // ok
 ```
 
 このように特定のState.propertyのみを渡すとエラーになる
@@ -813,7 +798,6 @@ interface State {
   age?: number;
 }
 ```
-
 
 **問36**
 
@@ -860,20 +844,20 @@ const result = a(serviceUser) // string
 
 [playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgKoGdrIN4ChkHLAAmAXMumFKAOa4C+uoksiKAggA6cZZ6HI43AHJwAthHIAiIZ1ESp+QrICSAEXKVqIOo2bR4SZAGVoAN2BJeUHEoKYoFpPMnIA5A6cQXbuxXOWEOqaVLQMuAgA9iCUyACuDsgAvDgk0gCMUoxRMWCC3NbJOPly4q4yImVSADQlwchSEE1ZgujIOZQA3BHRsZ6BhSnY-o6BLtL9zlW1k0EaDegtcG0dYLjrMHEgCGDA0YIAFJHkpqNWiQA+aJfIXDwOAJT8hMAwB1Kz6lJEIMiRD8goBAwHEoL9IgA6T5qboCV7vVRqb6gP4AoEgsF-CGI2GEdGg8EQkjdRg9XKAiDoOIAGzyKTgB1m1geQA)
 
-
 **問37**
 
 WIP 問題文。
 
 上の問題の
 
-```
+```ts
 function a(o: ServiceUser | User | AppUser){
   if("serviceID" in o) return o.serviceID;
   if("appID" in o) return o.appID;
   return o.id;
 }
 ```
+
 を
 独⾃定義 TypeGuardで型定義してください。(それぞれ `isService`、`isAppUser`、任意で`isUser`関数を作り、ifのコンディション内で実行。返す値がそれぞれのプロパティを持つようにして、型付けされていることを確認してください)
 
@@ -896,7 +880,6 @@ const result = a(serviceUser)
 
 [playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgKoGdrIN4ChkHLAAmAXMumFKAOa4C+uoksiKAggA6cZZ6HI43AHJwAthHIAiIZ1ESp+QrICSAEXKVqIOo2bR4SZAGVoAN2BJeUHEoKYoFpPMnIA5A6cQXbuxXOWEOqaVLQMuAgA9iCUyACuDsgAvDgk0gCMUoxRMWCC3NbJOPly4q4yImVSADQlwchSEE1ZgujIOZQA3BHRsZ6BhSnY-o6BLtL9zlW1k0EaDegtcG0dYLjrq0TopqNGKQAUkeRwIACeAJTkkVsmAVaJSQB8tgJQEGBxUCDIkQB0s+pkkkUlIAWopN1sr08sB0FweA9kIdjmdLj8bvDBs9+IQ3h8vj9fpiHsCGrJrBDwrgwKdOCgAPJFHZeQoAHzQiXZxOg3RgcRACDAwGigmRglROIIwBg+1hzMCh3O52QeM+3z+YO6AmlsrhBQciuVqoJf1Uai1uPeasJJEhG2hKog6DiABs8ik4PtZtZzkA)
 
-
 **問38**
 
 こちら
@@ -910,6 +893,7 @@ function a(o){
 a(o)
 a();
 ```
+
 の defaultValueとany型に対応してください
 
 ```ts
@@ -942,13 +926,10 @@ type NotHumman = Animal | Bird
 
 const a = (b:NotHumman) => {
     b.run
-} 
-
+}
 ```
 
 なぜコンパイルエラーになるのですか？説明してください
-
-
 
 **問40**
 
@@ -958,6 +939,7 @@ const a = (b:NotHumman) => {
 declare function beforeAll(action: () => void, timeout?: number): void;
 declare function beforeAll(action: (done: DoneFn) => void,timeout?: number): void;
 ```
+
 コールバックに渡す引数の数が違うのでオーバーライドしてあります。修正してください
 
 ```ts
@@ -1004,6 +986,7 @@ interface Example {
   diff(one: string, two: string, three: boolean): number;
 }
 ```
+
 修正してください
 
 ```ts
@@ -1028,6 +1011,7 @@ y = x;
 // 2
 x = y;
 ```
+
 `1`と`2`はそれぞれエラーになりますかなりませんか
 
 ```ts
@@ -1042,7 +1026,7 @@ let f: F = (value: string) => {
   //実装は使わないでもokだが
   console.log("here");
 };
-f("how", 2); //渡す際に満たさないといけない, 
+f("how", 2); //渡す際に満たさないといけない,
 ```
 
 **問44**
@@ -1058,6 +1042,7 @@ x = y;
 // 2
 y = x;
 ```
+
 `1`, `2`はそれぞれエラーになるかならないか
 
 ```ts
@@ -1073,6 +1058,7 @@ y = x; // エラー。xの戻り値には location プロパティがない
 **問46**
 
 こちら
+
 ```ts
 let identity = function<T>(x: T): T {
   // ...
@@ -1082,6 +1068,7 @@ let reverse = function<U>(y: U): U {
 };
 identity = reverse;
 ```
+
 は代入できるか。それぞれ`T`と`U`の型は何か
 
 ```ts
@@ -1100,12 +1087,12 @@ type NumFunc = (arg: number) => string;
 declare const obj: StrFunc | NumFunc;
 obj("fa");
 ```
+
 なぜですか
 
 ```ts
 objの型はStrFuncかNumFuncの型であり、それぞれの引数の型が違うためどちらの関数が呼び出されてもいいようにどちらの引数にも対応できる型を渡す必要があります
 ```
-
 
 **問48**
 
@@ -1121,6 +1108,7 @@ let obj: MyObj = {
   name: "kenji"
 };
 ```
+
 Errorになります。なぜですか。また正しく修正してください
 
 ```ts
@@ -1168,6 +1156,7 @@ interface Foo {
 }
 let obj: Foo = { name: "kenji", age: 90 };
 ```
+
 なぜコンパイルエラーなのですか？ `{ name: "kenji", age: 90 };`が代入できるように修正してください
 
 ```ts
@@ -1205,6 +1194,7 @@ let obj: Foo = { name: "kenji", age: 90 };
 let foo:any = {}
 foo["a"] = { message: "some message"};
 ```
+
 fooにanyを注釈しています。インデックスにstring、 値に代入しようとしている型を指定してください
 
 ```ts
@@ -1212,6 +1202,23 @@ fooにanyを注釈しています。インデックスにstring、 値に代入�
 let foo:{ [index: string]: { message: string }} = {}
 foo["a"] = { message: "some message"};
 
+```
+
+**問52**
+
+こちらは
+
+```ts
+const tupleStrNum = ["X", 2];
+```
+
+型推論で(string|number)[]になります。
+
+`[string, number]` とするにはどうしたらいいですか
+
+```ts
+const tupleStrNum = ["x", 2] as [string, number];
+//const tupleStrNum: [string, number] = ["X", 2];
 ```
 
 **参照**
