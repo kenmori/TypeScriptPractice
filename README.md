@@ -5,6 +5,7 @@
 更新情報
 
 ```txt
+- 問題を追加 (8/25)
 - 問題を追加 (8/7)
 - 問題を追加 50問完成 (7/28)
 - 問題を追加 (7/27)
@@ -1221,6 +1222,168 @@ const tupleStrNum = ["x", 2] as [string, number];
 //const tupleStrNum: [string, number] = ["X", 2];
 ```
 
+**53**
+
+こちらを
+
+```ts
+interface SomeObject {
+    firstKey:   string;
+    secondKey:  string;
+    thirdKey:   { id: { name: string} }
+}
+```
+
+再帰的に各プロパティをオプショナルにした型を定義してください
+
+```ts
+type RecursivePartial<T> = {
+    [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+const b: RecursivePartial<SomeObject> = {}
+b.thirdKey = {}
+
+/// 一部のプロパティをのぞいて再帰的にオプショナルにする型
+type PartialExcept<T, K extends keyof T> = RecursivePartial<T> & Pick<T, K>;
+
+//ok
+const a: PartialExcept<SomeObject, "thirdKey"> = {
+    firstKey:   "",
+    secondKey:  "",
+    thirdKey:   { id: { name: {}} }
+}
+// ok
+const b: PartialExcept<SomeObject, "thirdKey"> = {
+    thirdKey:   { id: { name: {}} }
+}
+// error
+const c: PartialExcept<SomeObject, "thirdKey"> = {}
+```
+
+
+**54**
+
+プロパティ`name`の値型が`string | null`、ageの値型が`number | null`の型`User`を定義してください
+
+```ts
+const d = {name: "kenji", age: 99}
+
+type E = {name: string, age: number}
+type User<T> = {[K in keyof T]: T[K] | null }
+
+const e:User<E> = { name: null, age: null};
+```
+
+**55**
+
+`U`を`extends`している値`T`は`never`を返し、そうでない値型は`T`を返す`Diff`を定義してください
+
+```ts
+
+type Diff<T, U> = T extends U ? never : T;
+
+const t1:Diff<"a" | "b", "b" | "c"> = "a";
+
+```
+
+**56**
+
+こちらの
+
+```ts
+const t3 = {name: "kenji", age: 99} as const
+type T3 = keyof typeof t3
+```
+
+`T3`の型をおしえてください
+
+```ts
+//type T3 = "name" | "age"
+```
+
+**57**
+
+TODO
+
+ ```ts
+enum StatusEnum { RootAdmin = "RootAdmin", Admin = "Admin" }
+type T2 =  Partial<Record<StatusEnum, number | null>>
+const t2:T2 = { RootAdmin: 0 }
+```
+
+
+**58**
+
+こちらの
+
+```ts
+type User = { name: string, age: number}
+const f = (a:User) => a
+const a:F<User> = f({name: "kenji", age: 9});
+```
+
+を参照に、
+
+もし関数型である引数を渡したらその引数が返ってくる型、関数型ではないなら関数が返ってくる`F<User>`を定義してください。
+
+```ts
+type F<T> = T extends (a: infer P) => any ? P : T;
+type User = { name: string, age: number}
+const f = (a:User) =>  a
+
+const a:F<User> = f({name: "kenji", age: 9}); // User
+const b:F<string> = "hello" //string
+```
+
+[playground](http://www.typescriptlang.org/play/#code/C4TwDgpgBAYgPAFQHxQLxQVCAPYEB2AJgM5QAUAhgFxQCW+AZhAE5QAKAlGihfiFAH52UGggDcAKAmhIUAKrEWaKAG8o+CgFsINYsGb0A5gBooFQzvUBXTQCMWAXykSAxgHt8eqA2WUqCli5UFDMpd09gMyp4AOYUdAYyFQ1tGgAiAGsCACtaNNNzSwBOBw4xKAB6CvlFZlcPL1touD0DfEN4qDSACwgAGz63NMqK1qNnIA)
+
+**58**
+
+```ts
+```
+
+
+**58**
+
+```ts
+```
+
+
+
+**58**
+
+```ts
+```
+
+
+
+**58**
+
+```ts
+```
+
+
+
+**58**
+
+```ts
+```
+
+
+**58**
+
+```ts
+```
+
+[playgrond](https://www.typescriptlang.org/play/index.html#code/JYOwLgpgTgZghgYwgAgMoHsC2EDyAjAKwgTGQG8BYAKGVuRmCgGcwBpCATwC46WpQA5gG5qdZE2LoQAE3bdafQSJp0wAC0azOPWmWTBpPPSDjYjAX3PJz1G1WrUwHAA4oASsQCuzYADcIAApwUGDAcAA2ADwAKgB8yAC85KJ0ANoB+iDIANac6DDI0QC6APw8HgjeTH6BwaERMelFscrmyk6uyEEhYeEAogAeSM5gMQA0yKzIEAOQMkw5eQVxicgVVTXd9VErAGRdwAjZ45MtDlQIUizIcDxbvYPDoxjY+EQkEwBE6ppyn-FJSgqWgMZhsbR0T6fMYpBSSGRyHRQmHA5A-KBaeS6fSGcjIExmciWay2c6XEDXPDlLw+fz3BovXCEYhgAFE6h4AB06MxqzIdkcLhQABEIBBnPSdmygWJ0plFhx8oVSjxReLJY0As1WspqOTrghVWKJXVepFGW8WdLYWiNBjEeQDEZ8aYIBZLKT7FQgA)
+
+
+
+```ts
+https://tech-1natsu.hatenablog.com/entry/2019/02/09/014218
+```
+
 **参照**
 
 - [https://qiita.com/uhyo/items/6acb7f4ee73287d5dac0](https://qiita.com/uhyo/items/6acb7f4ee73287d5dac0)
@@ -1230,3 +1393,6 @@ const tupleStrNum = ["x", 2] as [string, number];
 - [https://blog.logrocket.com/writing-readable-code-with-typescript-enums-a84864f340e9/](https://blog.logrocket.com/writing-readable-code-with-typescript-enums-a84864f340e9/)
 - [https://mariusschulz.com/blog/the-unknown-type-in-typescript](https://mariusschulz.com/blog/the-unknown-type-in-typescript)
 - [TypeScript3.4 型の強化書](https://booth.pm/ja/items/1317204)
+
+- [use Partial in nested property with typescript](https://stackoverflow.com/questions/47914536/use-partial-in-nested-property-with-typescript)
+
