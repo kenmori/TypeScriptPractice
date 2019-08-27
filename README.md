@@ -1338,15 +1338,53 @@ const b:F<string> = "hello" //string
 
 [playground](http://www.typescriptlang.org/play/#code/C4TwDgpgBAYgPAFQHxQLxQVCAPYEB2AJgM5QAUAhgFxQCW+AZhAE5QAKAlGihfiFAH52UGggDcAKAmhIUAKrEWaKAG8o+CgFsINYsGb0A5gBooFQzvUBXTQCMWAXykSAxgHt8eqA2WUqCli5UFDMpd09gMyp4AOYUdAYyFQ1tGgAiAGsCACtaNNNzSwBOBw4xKAB6CvlFZlcPL1touD0DfEN4qDSACwgAGz63NMqK1qNnIA)
 
-**58**
+**59**
+
+こちらの
 
 ```ts
+type A = {name: string}
+type B = {age: number}
 ```
 
-
-**58**
+AとBのkey`name`と`age`を合わせた`name | age`なUnion型を作ってください
 
 ```ts
+type A = {name: string}
+type B = {age: number}
+type T1 = keyof (A & B)
+```
+
+**60**
+
+こちらの
+```ts
+type MyUnionType =
+  | { foo: 'a', bar: 1 }
+  | { foo: 'b', bar: 2 } 
+  | { foo: 'c', bar: 3 }
+```
+
+型を
+`type Foos = 'a' | 'b' | 'c'`
+このようになるようにしてください
+
+```ts
+type MyUnionType = 
+  | { foo: 'a', bar: 1 }
+  | { foo: 'b', bar: 2 } 
+  | { foo: 'c', bar: 3 }
+
+type FooType = MyUnionType['foo']
+// FooType = "a" | "b" | "c"
+
+
+//or
+
+type PickField<T, K extends string> = T extends Record<K, any> ? T[K] : never;
+
+type FooType2 = PickField<MyUnionType, 'foo'>
+// type FooType2 = "a" | "b" | "c"
 ```
 
 
