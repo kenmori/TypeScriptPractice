@@ -1389,27 +1389,121 @@ type FooType2 = PickField<MyUnionType, 'foo'>
 
 
 
-**58**
+**61**
+
+こちらの
 
 ```ts
+interface Foo {
+    foo: number;
+    common: string;
+}
+
+interface Bar {
+    bar: number;
+    common: string;
+}
+
+function foo(arg){
+  return arg.foo
+}
+
+const result = foo({foo: 9});
+```
+
+関数fooは[現状](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgGIHt3IN4FgBQyRyMmAXMiAK4C2ARtANwHHILo03ogUDOYUUAHNm+AL4ECoSLEQoAQnCg4WxOkorV6TVUXadufAcNET8k-DCogEYYNxKYAFEqEBKPIWRQIYKlBBkVwA6UnQCMwJ2EH5vCF4qABswZABeR3QnbDCKAE4xN1EgA)`interface Foo`型を受け取り、
+現状`Foo`が持つ`foo`を返すようになっています。(argはanyです)
+
+この関数を`fooAndBar`と名前をへんこうして、`Foo`型が渡された場合は`arg.foo`を、`Bar`型の場合は`arg.bar`を返すように
+実装して、型付けしてください
+
+
+```ts
+
+interface Foo {
+    foo: number;
+    common: string;
+}
+
+interface Bar {
+    bar: number;
+    common: string;
+}
+
+function isFoo(arg: any): arg is Foo {
+  return arg.foo !== undefined;
+}
+function fooAndBar(arg: Bar | Foo){
+  if(isFoo(arg)){
+    return arg.foo
+  } else {
+    return arg.bar
+  }
+}
+
+const result = fooAndBar({foo: 9, common: "fa"});
+```
+
+[playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgGIHt3IN4FgBQyRyMmAXMiAK4C2ARtANwHHILo03ogUDOYUUAHNm+AL4ECoSLEQoAQnCg4WxOkorV6TVUXadufAcNET8BGFRAIwwbsmC8M6ABRKhFOCACeASk9QQg68aJgqhMhQEGBUUCDI7gB0pFgAhAC86chWACYQMKAQOaYWVjZ28SkAgiA5ilBugRT1yAA+oei+eBHAMC6Ozo1Cvl26kdGx8UkpqmLIEAA2vCjdrFExcQmBiepQswRmBOwg-OO8VAtgyFnVtfUu2CkUAJwANGwcXDzIAETwP2JfKIgA)
+
+**62**
+
+こちらは
+
+```ts
+interface NumberMap {
+    [key: string]: number;
+}
+const map: NumberMap = {
+  one: 1,
+  two: 2,
+  three: 3,
+}
+
+// no error, but incorrect, this key does *not* exist
+const lol = map.weoiroweiroew;
+
+// Also cannot do this
+// 'map' refers to a value, but is being used as a type here.
+type MyKeys = keyof map;
+```
+
+現状`map`に割り当てられている実際の`property`以外のプロパティを受け入れてしまっています
+実際に渡したもpropertyをもつ型のみを受け入れるようにしてください(`map.weoiroweiroew`をエラーにししてください)
+
+また `type MyKeys = keyof map;`を期待する結果である`one | two | three`にしてください
+
+ ```ts
+ interface NumberMap {
+    [key: string]: number;
+}
+
+function careteMap<T extends NumberMap>(v: T){
+  return v
+}
+
+const map = careteMap({
+  one: 1,
+  two: 2,
+  three: 3,
+})
+
+const lol = map.weoiroweiroew;
+
+type MyKeys = keyof typeof map;
+ ```
+
+[playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgHIFcC2AjaBZOAB2QG8BYAKGWuQG0BrCATwC5kBnMKUAcwF02ILLigBuSgF9K0ijHQgEYYAHsQyBHCgRIBQgB4AKsggAPSCAAm7NMPxEAfAAoAbmwMBKclWRaw6KGrOkjIIqpzImETIALzqmtoQuo5e1KoQbACMADSU1GAA7spsAEw53mAAFlrpyADMZRLuMs0UAPStyCDKxlBQylBZyNjoYMigob0QioOVwNaMTMgWyhDWAFRdYGvGJnNglKEg4QA2yscxEUQAdPkQysB9tw8r+eIUlO3IAILH7N0aIE2S26s3YlDATEIKDwTAA0sxrLEFsoYMgIVCUZdCKIgA)
+
+
+**63**
+
+```ts
+
 ```
 
 
-
-**58**
-
-```ts
-```
-
-
-
-**58**
-
-```ts
-```
-
-
-**58**
+**64**
 
 ```ts
 ```
@@ -1433,4 +1527,5 @@ https://tech-1natsu.hatenablog.com/entry/2019/02/09/014218
 - [TypeScript3.4 型の強化書](https://booth.pm/ja/items/1317204)
 
 - [use Partial in nested property with typescript](https://stackoverflow.com/questions/47914536/use-partial-in-nested-property-with-typescript)
+- [Typescript index signatures](https://stackoverflow.com/questions/50836259/typescript-index-signatures)
 
