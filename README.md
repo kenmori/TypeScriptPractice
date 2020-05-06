@@ -1,26 +1,48 @@
-# TypeScript 練習問題集(Practice)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/4/29)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
-更新情報
+**TypeScript and Playground練習問題集更新情報**
 
-```txt
-- 問題を追加 (8/25)
-- 問題を追加 (8/7)
-- 問題を追加 50問完成 (7/28)
-- 問題を追加 (7/27)
-- 問題を追加 (7/20)
-- 画像を追加 (7/13)
+WIP
+
+※2020GW中に問題や答え精査します
+```
+- 問62、63、64を追加(2020/4/29)
+- 問2の問題を修正(2020/4/27)
+- 説明・例文を追加(2020/4/26)
 ```
 
 - こちらは [@bukotsunikki](https://twitter.com/bukotsunikki)自身が学習するための問題集です。
 - 以前[JavaScript問題集](https://gist.github.com/kenmori/1961ce0140dc3307a0e641c8dde6701d)を作りましたがそれのTypeScript版です。
-
+- [わたしについて](http://kenjimorita.jp/aboutme)  [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40bukotsunikki)](https://twitter.com/bukotsunikki)
 - 随時更新して行きますのでスターつけていただけると励みになります。
+- 最初から答えが見えているのは都度操作させないためです。
 
-TODO
+ちょっとやってみましょう
 
-- まだまだ文中の文言、整っていません。とりあえず50問作ってその後個々に対して内容精査
+**問0**
+
+こちら
+
+```ts
+const greeting = (value) => "hello!" + value
+```
+関数`greeting` は `"hello!world!"`を返す関数です(文字列を返します)。
+引数`value`に型注釈してください
+
+> ここまでが「問題」です。
+> 以下「答えの一例」になります。
+
+```ts
+const greeting = (value: string) => "hello!" + value
+```
+
+では早速始めましょう
+
+---
+
+
 
 **問1**
 
@@ -50,7 +72,7 @@ type Foo = {
 }
 ```
 
-Fooが持つプロパティ全てreadOnlyにしてください
+Fooが持つプロパティ全て必須にしてください
 
 ```ts
 type RequireA = Required<Foo>;
@@ -700,7 +722,7 @@ stringとnullableな配列の型を作ってください
 let arr: (string | null)[] = []
 ```
 
-[playground](http://www.typescriptlang.org/play/index.html#code/MYewdgzgLgBAhgJwQLgBTQQSzAcxgHxjAFcAbUgSgG0BdGAXhloFgAoNxBAOgAdiIAFqhLkKAbjahIIUgFMupEDlSdxQA
+[playground](http://www.typescriptlang.org/play/index.html#code/MYewdgzgLgBAhgJwQLgBTQQSzAcxgHxjAFcAbUgSgG0BdGAXhloFgAoNxBAOgAdiIAFqhLkKAbjahIIUgFMupEDlSdxQA)
 
 **問32**
 
@@ -931,6 +953,20 @@ const a = (b:NotHumman) => {
 ```
 
 なぜコンパイルエラーになるのですか？説明してください
+
+```
+// NotHummanはAnimal型かBird型の可能性があるので、それを区別してからではないと一方にしかないproperyへのアクセスはできません。
+// 型を確定後に参照する必要があります
+type NotHumman = Animal | Bird
+
+const b = (b: NotHumman) => {
+    if ("run" in b) { // animalであることが確定する
+        b.run
+    } else {
+        b.fly
+    }
+}
+```
 
 **問40**
 
@@ -1222,7 +1258,7 @@ const tupleStrNum = ["x", 2] as [string, number];
 //const tupleStrNum: [string, number] = ["X", 2];
 ```
 
-**53**
+**問53**
 
 こちらを
 
@@ -1262,7 +1298,7 @@ const c: PartialExcept<SomeObject, "thirdKey"> = {}
 ```
 
 
-**54**
+**問54**
 
 プロパティ`name`の値型が`string | null`、ageの値型が`number | null`の型`User`を定義してください
 
@@ -1275,7 +1311,7 @@ type User<T> = {[K in keyof T]: T[K] | null }
 const e:User<E> = { name: null, age: null};
 ```
 
-**55**
+**問55**
 
 `U`を`extends`している値`T`は`never`を返し、そうでない値型は`T`を返す`Diff`を定義してください
 
@@ -1287,7 +1323,7 @@ const t1:Diff<"a" | "b", "b" | "c"> = "a";
 
 ```
 
-**56**
+**問56**
 
 こちらの
 
@@ -1302,7 +1338,7 @@ type T3 = keyof typeof t3
 //type T3 = "name" | "age"
 ```
 
-**57**
+**問57**
 
 TODO
 
@@ -1313,7 +1349,7 @@ const t2:T2 = { RootAdmin: 0 }
 ```
 
 
-**58**
+**問58**
 
 こちらの
 
@@ -1338,175 +1374,243 @@ const b:F<string> = "hello" //string
 
 [playground](http://www.typescriptlang.org/play/#code/C4TwDgpgBAYgPAFQHxQLxQVCAPYEB2AJgM5QAUAhgFxQCW+AZhAE5QAKAlGihfiFAH52UGggDcAKAmhIUAKrEWaKAG8o+CgFsINYsGb0A5gBooFQzvUBXTQCMWAXykSAxgHt8eqA2WUqCli5UFDMpd09gMyp4AOYUdAYyFQ1tGgAiAGsCACtaNNNzSwBOBw4xKAB6CvlFZlcPL1touD0DfEN4qDSACwgAGz63NMqK1qNnIA)
 
-**59**
+**問59**
 
-こちらの
-
+下記のような
 ```ts
-type A = {name: string}
-type B = {age: number}
+type User = { name: string, age: number }
 ```
-
-AとBのkey`name`と`age`を合わせた`name | age`なUnion型を作ってください
-
-```ts
-type A = {name: string}
-type B = {age: number}
-type T1 = keyof (A & B)
-```
-
-**60**
-
-こちらの
-```ts
-type MyUnionType =
-  | { foo: 'a', bar: 1 }
-  | { foo: 'b', bar: 2 } 
-  | { foo: 'c', bar: 3 }
-```
-
-型を
-`type Foos = 'a' | 'b' | 'c'`
-このようになるようにしてください
-
-```ts
-type MyUnionType = 
-  | { foo: 'a', bar: 1 }
-  | { foo: 'b', bar: 2 } 
-  | { foo: 'c', bar: 3 }
-
-type FooType = MyUnionType['foo']
-// FooType = "a" | "b" | "c"
-
-
-//or
-
-type PickField<T, K extends string> = T extends Record<K, any> ? T[K] : never;
-
-type FooType2 = PickField<MyUnionType, 'foo'>
-// type FooType2 = "a" | "b" | "c"
-```
-
-
-
-**61**
-
-こちらの
-
-```ts
-interface Foo {
-    foo: number;
-    common: string;
-}
-
-interface Bar {
-    bar: number;
-    common: string;
-}
-
-function foo(arg){
-  return arg.foo
-}
-
-const result = foo({foo: 9});
-```
-
-関数fooは[現状](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgGIHt3IN4FgBQyRyMmAXMiAK4C2ARtANwHHILo03ogUDOYUUAHNm+AL4ECoSLEQoAQnCg4WxOkorV6TVUXadufAcNET8k-DCogEYYNxKYAFEqEBKPIWRQIYKlBBkVwA6UnQCMwJ2EH5vCF4qABswZABeR3QnbDCKAE4xN1EgA)`interface Foo`型を受け取り、
-現状`Foo`が持つ`foo`を返すようになっています。(argはanyです)
-
-この関数を`fooAndBar`と名前をへんこうして、`Foo`型が渡された場合は`arg.foo`を、`Bar`型の場合は`arg.bar`を返すように
-実装して、型付けしてください
-
+User型がある。こちらのvalueのUnion型を取得する型を定義してください。 `string | number`
 
 ```ts
 
-interface Foo {
-    foo: number;
-    common: string;
-}
+type User = { name: string, age: number }
+type Value<T> = T[keyof T]
+type ValueType = Value<User> // string | number
 
-interface Bar {
-    bar: number;
-    common: string;
-}
+// 別解
+type Value<T> = { [K in keyof T]: T[K] }[keyof T]
+type ValueResult = Value<User> // string | number
 
-function isFoo(arg: any): arg is Foo {
-  return arg.foo !== undefined;
-}
-function fooAndBar(arg: Bar | Foo){
-  if(isFoo(arg)){
-    return arg.foo
-  } else {
-    return arg.bar
-  }
-}
-
-const result = fooAndBar({foo: 9, common: "fa"});
 ```
 
-[playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgGIHt3IN4FgBQyRyMmAXMiAK4C2ARtANwHHILo03ogUDOYUUAHNm+AL4ECoSLEQoAQnCg4WxOkorV6TVUXadufAcNET8BGFRAIwwbsmC8M6ABRKhFOCACeASk9QQg68aJgqhMhQEGBUUCDI7gB0pFgAhAC86chWACYQMKAQOaYWVjZ28SkAgiA5ilBugRT1yAA+oei+eBHAMC6Ozo1Cvl26kdGx8UkpqmLIEAA2vCjdrFExcQmBiepQswRmBOwg-OO8VAtgyFnVtfUu2CkUAJwANGwcXDzIAETwP2JfKIgA)
+[playground](https://www.typescriptlang.org/play/?ssl=23&ssc=33&pln=18&pc=1#code/LAKFBcE8AcFMAICqBnWAneBeeBveA7AQwFtYAueZcNAS3wHMAaeQ+8ggV2ICN14BfUKAD0w+ACIipcfAA+E1rHFCQUOPADSsSCj7YA1toD2AMySoMK0ZWp16czj3Qq1CAGqEANh1gAeACoAfFi48ADaGvB08IaQpvD+ALoU-hGJAmGx8UkuMO5ePgBKsMgcnuAhHt5+umiBuepVPgDyJgHB2KlZZjlgqnnwTbCtxaXllQXDbbX1fSpAA)
 
-**62**
+
+
+**問60**
+
+こちらの型
+
+```ts
+type User = { name: string, age: number, id: number }
+```
+
+の値の型がnumberのものだけを抽出した型を作ってください。 期待する結果 `{age: number, id: number}`
+
+
+```ts
+type User = { name: string, age: number, id: number }
+
+type Value<T> = { [K in keyof T]: T[K] extends number ? K : never }[keyof T]
+
+type NumberType = Pick<User, Value<User>>
+```
+
+[playground](https://www.typescriptlang.org/play/#code/C4TwDgpgBAqgzhATlAvFA3lAdgQwLYQBcUcwiAllgOYA0UOVR2ArngEZJ3kAmxWrHZAF8AsAChxoSFABqOADbMIAHgAqAPlQYoAbQDSUSlADWEEAHsAZlFUBdYqv22oEAB7AIWbnBbskUAH4oAz4IADd-IR1TC2s7cUlwaAA5ASRVJK0ABXIAY2NleE5ZBSVChER1dSA)
+
+**問61**
+
+下のようなコードがあります
+```ts
+const isNarrowScreen = () => false
+export function wideNarrow(wide: number | string | undefined, 
+    narrow:number|string|undefined){
+    return isNarrowScreen() ? narrow : wide;
+}
+
+const a = wideNarrow(0, 8)
+const extendedAreaHeight = 26;
+const b = a + extendedAreaHeight // Operator '+' cannot be applied to types 'string | number' and 'number'.
+
+```
+上の場合unionTypeなため`+`で加算しようとするところでエラーになります。こちらを渡ってきた型を推論するようにしてください
+
+```ts
+const isNarrowScreen = () => false
+export function wideNarrow<T>(wide: T,
+    narrow:T){
+    return isNarrowScreen() ? narrow : wide;
+}
+
+const a = wideNarrow(0, 8)
+const extendedAreaHeight = 26;
+const b = a + extendedAreaHeight
+console.log(b)
+
+```
+
+[playground](https://www.typescriptlang.org/play/#code/MYewdgzgLgBAlhAcgQwE6pAdwMrFQU3zBgF4YAKASlID4YAzZAGwnwFgAofADwAcRUsegFcwwKHHAxMcACb4U6LAB4AKjXIz5ALhiqANDE4wTMMGgyZtqygG9jpglGGpiCRZdwEiVGAH4zCywYXS18AG5OAF9OTlBIWGRSaTkFIMxyAAZDAA5KOPBoGB4oInlZAEECZAAJfDgAcwALWDIAJgA2SI54ooAjZKSAamLuUrByqvxa+uaoAsgQJnwAOiYQBvI+-I4gA)
+
+
+**問62**
 
 こちらは
 
 ```ts
-interface NumberMap {
-    [key: string]: number;
+function add<T extends (number | string)>(a: T, b: T): T {
+ if (typeof a === 'string') {
+  return a + b;
+} else if (typeof a === 'number') {
+ return a + b;
+ }
 }
-const map: NumberMap = {
-  one: 1,
-  two: 2,
-  three: 3,
-}
-
-// no error, but incorrect, this key does *not* exist
-const lol = map.weoiroweiroew;
-
-// Also cannot do this
-// 'map' refers to a value, but is being used as a type here.
-type MyKeys = keyof map;
 ```
 
-現状`map`に割り当てられている実際の`property`以外のプロパティを受け入れてしまっています
-実際に渡したもpropertyをもつ型のみを受け入れるようにしてください(`map.weoiroweiroew`をエラーにししてください)
+[playground](https://www.typescriptlang.org/play/#code/GYVwdgxgLglg9mABAQwCaoDwBVEFMAeUuYqAzogBRggC2ARrgE6IA+ipUjMYA5gJQA+CsgBciLABpEdMVj6zEAbwCwAKACQMYJSgBPAA64425IgC8FxAHIOXXlb5K169Y1xQQjJKYDU0gNzOAL54ADakuIhaOgZGJuaWVtT0TA5OGq7unt6IfnSBGkFqRapAA)
 
-また `type MyKeys = keyof map;`を期待する結果である`one | two | three`にしてください
-
- ```ts
- interface NumberMap {
-    [key: string]: number;
-}
-
-function careteMap<T extends NumberMap>(v: T){
-  return v
-}
-
-const map = careteMap({
-  one: 1,
-  two: 2,
-  three: 3,
-})
-
-const lol = map.weoiroweiroew;
-
-type MyKeys = keyof typeof map;
- ```
-
-[playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgHIFcC2AjaBZOAB2QG8BYAKGWuQG0BrCATwC5kBnMKUAcwF02ILLigBuSgF9K0ijHQgEYYAHsQyBHCgRIBQgB4AKsggAPSCAAm7NMPxEAfAAoAbmwMBKclWRaw6KGrOkjIIqpzImETIALzqmtoQuo5e1KoQbACMADSU1GAA7spsAEw53mAAFlrpyADMZRLuMs0UAPStyCDKxlBQylBZyNjoYMigob0QioOVwNaMTMgWyhDWAFRdYGvGJnNglKEg4QA2yscxEUQAdPkQysB9tw8r+eIUlO3IAILH7N0aIE2S26s3YlDATEIKDwTAA0sxrLEFsoYMgIVCUZdCKIgA)
-
-
-**63**
+numberかstringが渡ってくることを想定して作られた関数です。
+2つは同じ型の引数を取るため、型を`T`として使おうとしています。
+ただ、コンパイルエラーになっています。正しく修正してください
 
 ```ts
-
+function add<T extends (number | string)>(a: T, b: T): T {
+  if (typeof a === 'string' && typeof b === "string") {
+  return a + b as T
+} else if (typeof a === 'number' && typeof b === "number") {
+  return a + b as T
+}
+ throw Error("not Support")
+}
 ```
 
+関数の中のgeneric parameterの型は絞り込むことはできない。なのでaをテストした時、bをコンパイラに伝えなくてはならない。さらに返値の方もコンパイラに伝えなくてはならない
 
-**64**
+[playground](https://www.typescriptlang.org/play/#code/GYVwdgxgLglg9mABAQwCaoDwBVEFMAeUuYqAzogBRggC2ARrgE6IA+ipUjMYA5gJQA+CsgBciLABpEdMVj6zEAbwCwAKACQMYJSgBPAA64425IgC8FxAHIOXXlcQAyR4j2Hj085YBEt7j28+JTV1dUZcKBBGJFMAak9kciwQgF88ABtSXEQtHQMjEy8za2p6JgdnV3yPOiLEb1KGRkDgjTCIqJjEeNrE8VSQqAALRjgAd0QAUUZRxgoGuChEAGUQfX04RihAtRS1IA)
+
+
+**問63**
+
+下記のような
 
 ```ts
+const values = ['A', 'B']
+type Foo = OneOf<values>
+
+const v1: Foo = 'A' // ok
+const v2: Foo = 'D' // error
 ```
+
+[playground](https://www.typescriptlang.org/play/index.html?ssl=5&ssc=20&pln=5&pc=86#code/MYewdgzgLgBAbgQwDYFcCmEYF4YG0DkAgvgDQz4BC+AugLABQUAngA5owBiII2MA8mDR8AZgB5EqDAD4YAelkwAkpigALNACd2CGAHcETGCGEwAJiACWYAOYw1FiAH4GDUJFhwAjAC5O3XkT4cgoAKqoOMBCqIChIpnogGgDWruDQ8ABMvlw8OPgAIkHyMGERUTFxMNYWcOwAttpgMJoaiZFWwOwFQeYYYPiwaAAeDrBW8MjoEEA)
+
+配列の各要素(string)のどれかを割り当てることができるUnion型が返る`OneOf`を定義してください
+
+
+```ts
+function stringLiterals<T extends string>(...args: T[]): T[] { return args; }
+type OneOf<T extends unknown[]> = T extends (infer R)[] ? R : never;
+
+const values = stringLiterals('A', 'B');
+type Foo = OneOf<typeof values>;
+```
+
+リテラルなstring、`("A"|"B")[]`にする必要がある。
+`1` の方は一度関数を通してそれを得て、 `OneOf`の方で要素の型を取得している
+`2` の方はReadOnlyしか受け付けないOneOf。constでReadonlyにしてから渡すとその要素を受け取れる
+どちらも `"A" | "B"` が返る
+
+```ts
+// 1
+function stringLiterals<T extends string>(...args: T[]): T[] { return args; }
+type OneOf<T extends unknown[]> = T extends (infer R)[] ? R : never;
+const values = stringLiterals('A', 'B'); // ("A" | "B")[]
+type Foo = OneOf<typeof values>; // "A" | "B"
+
+or
+
+type OneOf<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer ElementType> ? ElementType : never;
+const values = ["A", "B"] as const // readonly ["A", "B"]
+type Foo = OneOf<typeof values>; // "A" | "B"
+```
+
+[playground](https://www.typescriptlang.org/play/index.html?ssl=8&ssc=1&pln=9&pc=1#code/GYVwdgxgLglg9mABAZygJxmA5gGRlAUzQEMAbZAHgBVECAPQsAE2RXUywD4AKAOn+JosyAFyIqAbQC6ASjGSpiAN6I0BKCDRJBwgNyIAvgFgAUFACeABwKIA8mAK3g1WgwLNW4ANZg4AdzBpTkQAXnFXRhZEbkxgIkQAJRlpRAB+RMQxBwA3Il1TUwB6QsQIBFREbLIQAlYwiQAiAEEGgBpEBoAhBsVUDGxpQGsGQCsGQGMGQDMGQHUGQD8GQDEGIpKysAqq0hq6xEaW9q6exGJWJdQF8QALGwtrRAByNWImBFJzTea2ju6pa8QYVluCe8e5i+xGYpRBvigiAARjYDsgYFgHExEFA4CjzogALYgKDEKGkC5WGzXby+ALSL53B5gJ4oomAewZfGAALRU5mAunWQaAJyVAFEMgGV9caASIZADEMw0AIgwnQDKDCLAEkMgEYowCaDIN6fZHMBZQl-kx7E9BorANEMUsAFgwnS42NVOFz0SKsLUAmnmJpoEjmCik-xgTjBMI0G3uKL26lPZ2uiixeIAUQJmPcUCoROC6WjBFjYHjRMyiByeROxVK5Uhq3WoRe23eewOBeWUBORyL1Vqpb6HDwhBI5G41ya13a1061xk+RM+fNiAAYnA0WFLc5zXBgJVG8hOMOzZnZ9a3B5EtrAaHiG6PQFvaW-dvA3vHQe3RG0IgU2mM9Ykw+Y3GE1csgRcmhh-WlzWJswhbbA2yIMhkG4V4dm6GRTDHSdpzsBwrXnRdi1qVcgA)
+
+
+
+
+**問64**
+
+こちら
+
+```ts
+const a: Record<string, string> = {
+    doorToDoor: "delivery at door",
+    airDelivery: "flying in",
+    specialDelivery: "special delivery",
+    inStore: "in-store pickup",
+};
+const aa = a["name"] // stringが入ってしまう
+```
+
+`a` に割り当てられたオブジェクトのプロパティ以外を参照できないようにしてください
+
+```ts
+プロパティ名のUnionTypeを作る必要があります
+
+const source =  {
+    doorToDoor: "delivery at door",
+    airDelivery: "flying in",
+    specialDelivery: "special delivery",
+    inStore: "in-store pickup",
+};
+const a: Record<keyof typeof source, string> = source
+const aa = a["name"] // error
+```
+
+
+
+**問65**
+
+```
+WIP
+```
+
+**問66**
+
+```
+WIP
+```
+
+**問67**
+
+```
+WIP
+```
+
+**問68**
+
+```
+WIP
+```
+
+**問69**
+
+```
+WIP
+```
+
+**問70**
+
+```
+WIP
+```
+
+
+
+---
+
+WIP
+
 
 [playgrond](https://www.typescriptlang.org/play/index.html#code/JYOwLgpgTgZghgYwgAgMoHsC2EDyAjAKwgTGQG8BYAKGVuRmCgGcwBpCATwC46WpQA5gG5qdZE2LoQAE3bdafQSJp0wAC0azOPWmWTBpPPSDjYjAX3PJz1G1WrUwHAA4oASsQCuzYADcIAApwUGDAcAA2ADwAKgB8yAC85KJ0ANoB+iDIANac6DDI0QC6APw8HgjeTH6BwaERMelFscrmyk6uyEEhYeEAogAeSM5gMQA0yKzIEAOQMkw5eQVxicgVVTXd9VErAGRdwAjZ45MtDlQIUizIcDxbvYPDoxjY+EQkEwBE6ppyn-FJSgqWgMZhsbR0T6fMYpBSSGRyHRQmHA5A-KBaeS6fSGcjIExmciWay2c6XEDXPDlLw+fz3BovXCEYhgAFE6h4AB06MxqzIdkcLhQABEIBBnPSdmygWJ0plFhx8oVSjxReLJY0As1WspqOTrghVWKJXVepFGW8WdLYWiNBjEeQDEZ8aYIBZLKT7FQgA)
 
@@ -1527,5 +1631,4 @@ https://tech-1natsu.hatenablog.com/entry/2019/02/09/014218
 - [TypeScript3.4 型の強化書](https://booth.pm/ja/items/1317204)
 
 - [use Partial in nested property with typescript](https://stackoverflow.com/questions/47914536/use-partial-in-nested-property-with-typescript)
-- [Typescript index signatures](https://stackoverflow.com/questions/50836259/typescript-index-signatures)
 
