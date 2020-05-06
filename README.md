@@ -1438,7 +1438,7 @@ const b = a + extendedAreaHeight // Operator '+' cannot be applied to types 'str
 
 ```ts
 const isNarrowScreen = () => false
-export function wideNarrow<T>(wide: T, 
+export function wideNarrow<T>(wide: T,
     narrow:T){
     return isNarrowScreen() ? narrow : wide;
 }
@@ -1543,7 +1543,7 @@ type Foo = OneOf<typeof values>; // "A" | "B"
 こちら
 
 ```ts
-const a: Record<string, string> = { 
+const a: Record<string, string> = {
     doorToDoor: "delivery at door",
     airDelivery: "flying in",
     specialDelivery: "special delivery",
@@ -1557,7 +1557,7 @@ const aa = a["name"] // stringが入ってしまう
 ```ts
 プロパティ名のUnionTypeを作る必要があります
 
-const source =  { 
+const source =  {
     doorToDoor: "delivery at door",
     airDelivery: "flying in",
     specialDelivery: "special delivery",
