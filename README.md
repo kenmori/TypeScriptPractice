@@ -1408,7 +1408,6 @@ type User = { name: string, age: number, id: number }
 
 の値の型がnumberのものだけを抽出した型を作ってください。 期待する結果 `{age: number, id: number}`
 
-
 ```ts
 type User = { name: string, age: number, id: number }
 
@@ -1420,8 +1419,8 @@ type NumberType = Pick<User, Value<User>>
 [playground](https://www.typescriptlang.org/play/#code/C4TwDgpgBAqgzhATlAvFA3lAdgQwLYQBcUcwiAllgOYA0UOVR2ArngEZJ3kAmxWrHZAF8AsAChxoSFABqOADbMIAHgAqAPlQYoAbQDSUSlADWEEAHsAZlFUBdYqv22oEAB7AIWbnBbskUAH4oAz4IADd-IR1TC2s7cUlwaAA5ASRVJK0ABXIAY2NleE5ZBSVChER1dSA)
 
 **問61**
-
 下のようなコードがあります
+
 ```ts
 const isNarrowScreen = () => false
 export function wideNarrow(wide: number | string | undefined, 
@@ -1434,6 +1433,7 @@ const extendedAreaHeight = 26;
 const b = a + extendedAreaHeight // Operator '+' cannot be applied to types 'string | number' and 'number'.
 
 ```
+
 上の場合unionTypeなため`+`で加算しようとするところでエラーになります。こちらを渡ってきた型を推論するようにしてください
 
 ```ts
@@ -1452,9 +1452,7 @@ console.log(b)
 
 [playground](https://www.typescriptlang.org/play/#code/MYewdgzgLgBAlhAcgQwE6pAdwMrFQU3zBgF4YAKASlID4YAzZAGwnwFgAofADwAcRUsegFcwwKHHAxMcACb4U6LAB4AKjXIz5ALhiqANDE4wTMMGgyZtqygG9jpglGGpiCRZdwEiVGAH4zCywYXS18AG5OAF9OTlBIWGRSaTkFIMxyAAZDAA5KOPBoGB4oInlZAEECZAAJfDgAcwALWDIAJgA2SI54ooAjZKSAamLuUrByqvxa+uaoAsgQJnwAOiYQBvI+-I4gA)
 
-
 **問62**
-
 こちらは
 
 ```ts
@@ -1488,9 +1486,7 @@ function add<T extends (number | string)>(a: T, b: T): T {
 
 [playground](https://www.typescriptlang.org/play/#code/GYVwdgxgLglg9mABAQwCaoDwBVEFMAeUuYqAzogBRggC2ARrgE6IA+ipUjMYA5gJQA+CsgBciLABpEdMVj6zEAbwCwAKACQMYJSgBPAA64425IgC8FxAHIOXXlcQAyR4j2Hj085YBEt7j28+JTV1dUZcKBBGJFMAak9kciwQgF88ABtSXEQtHQMjEy8za2p6JgdnV3yPOiLEb1KGRkDgjTCIqJjEeNrE8VSQqAALRjgAd0QAUUZRxgoGuChEAGUQfX04RihAtRS1IA)
 
-
 **問63**
-
 下記のような
 
 ```ts
@@ -1535,11 +1531,7 @@ type Foo = OneOf<typeof values>; // "A" | "B"
 
 [playground](https://www.typescriptlang.org/play/index.html?ssl=8&ssc=1&pln=9&pc=1#code/GYVwdgxgLglg9mABAZygJxmA5gGRlAUzQEMAbZAHgBVECAPQsAE2RXUywD4AKAOn+JosyAFyIqAbQC6ASjGSpiAN6I0BKCDRJBwgNyIAvgFgAUFACeABwKIA8mAK3g1WgwLNW4ANZg4AdzBpTkQAXnFXRhZEbkxgIkQAJRlpRAB+RMQxBwA3Il1TUwB6QsQIBFREbLIQAlYwiQAiAEEGgBpEBoAhBsVUDGxpQGsGQCsGQGMGQDMGQHUGQD8GQDEGIpKysAqq0hq6xEaW9q6exGJWJdQF8QALGwtrRAByNWImBFJzTea2ju6pa8QYVluCe8e5i+xGYpRBvigiAARjYDsgYFgHExEFA4CjzogALYgKDEKGkC5WGzXby+ALSL53B5gJ4oomAewZfGAALRU5mAunWQaAJyVAFEMgGV9caASIZADEMw0AIgwnQDKDCLAEkMgEYowCaDIN6fZHMBZQl-kx7E9BorANEMUsAFgwnS42NVOFz0SKsLUAmnmJpoEjmCik-xgTjBMI0G3uKL26lPZ2uiixeIAUQJmPcUCoROC6WjBFjYHjRMyiByeROxVK5Uhq3WoRe23eewOBeWUBORyL1Vqpb6HDwhBI5G41ya13a1061xk+RM+fNiAAYnA0WFLc5zXBgJVG8hOMOzZnZ9a3B5EtrAaHiG6PQFvaW-dvA3vHQe3RG0IgU2mM9Ykw+Y3GE1csgRcmhh-WlzWJswhbbA2yIMhkG4V4dm6GRTDHSdpzsBwrXnRdi1qVcgA)
 
-
-
-
 **問64**
-
 こちら
 
 ```ts
@@ -1567,31 +1559,148 @@ const a: Record<keyof typeof source, string> = source
 const aa = a["name"] // error
 ```
 
-
-
 **問65**
 
+こちらの
+```ts
+type A = {name: string}
+type B = {age: number}
 ```
-WIP
+
+AとBのkeynameとageを合わせた`name | age`なUnion型を作ってください
+
+```ts
+type A = {name: string}
+type B = {age: number}
+type T1 = keyof (A & B)
 ```
 
 **問66**
 
-```
-WIP
+こちらの
+
+```ts
+type MyUnionType =
+  | { foo: 'a', bar: 1 }
+  | { foo: 'b', bar: 2 }
+  | { foo: 'c', bar: 3 }
+型を type Foos = 'a' | 'b' | 'c' このようになるようにしてください
+
+type MyUnionType =
+  | { foo: 'a', bar: 1 }
+  | { foo: 'b', bar: 2 }
+  | { foo: 'c', bar: 3 }
+
+type FooType = MyUnionType['foo']
+// FooType = "a" | "b" | "c"
+
+
+//or
+
+type PickField<T, K extends string> = T extends Record<K, any> ? T[K] : never;
+
+type FooType2 = PickField<MyUnionType, 'foo'>
+// type FooType2 = "a" | "b" | "c"
 ```
 
 **問67**
+こちらの
 
+```ts
+interface Foo {
+    foo: number;
+    common: string;
+}
+
+interface Bar {
+    bar: number;
+    common: string;
+}
+
+function foo(arg){
+  return arg.foo
+}
+
+const result = foo({foo: 9});
 ```
-WIP
+
+関数fooは[現状](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgGIHt3IN4FgBQyRyMmAXMiAK4C2ARtANwHHILo03ogUDOYUUAHNm+AL4ECoSLEQoAQnCg4WxOkorV6TVUXadufAcNET8k-DCogEYYNxKYAFEqEBKPIWRQIYKlBBkVwA6UnQCMwJ2EH5vCF4qABswZABeR3QnbDCKAE4xN1EgA) `interface Foo`型を受け取り、 現状`Foo`が持つ`foo`を返すようになっています。(argはanyです)
+
+この関数をfooAndBarと名前をへんこうして、Foo型が渡された場合はarg.fooを、Bar型の場合はarg.barを返すように 実装して、型付けしてください
+
+```ts
+interface Foo {
+    foo: number;
+    common: string;
+}
+
+interface Bar {
+    bar: number;
+    common: string;
+}
+
+function isFoo(arg: any): arg is Foo {
+  return arg.foo !== undefined;
+}
+function fooAndBar(arg: Bar | Foo){
+  if(isFoo(arg)){
+    return arg.foo
+  } else {
+    return arg.bar
+  }
+}
+
+const result = fooAndBar({foo: 9, common: "fa"});
 ```
+
+[playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgGIHt3IN4FgBQyRyMmAXMiAK4C2ARtANwHHILo03ogUDOYUUAHNm+AL4ECoSLEQoAQnCg4WxOkorV6TVUXadufAcNET8BGFRAIwwbsmC8M6ABRKhFOCACeASk9QQg68aJgqhMhQEGBUUCDI7gB0pFgAhAC86chWACYQMKAQOaYWVjZ28SkAgiA5ilBugRT1yAA+oei+eBHAMC6Ozo1Cvl26kdGx8UkpqmLIEAA2vCjdrFExcQmBiepQswRmBOwg-OO8VAtgyFnVtfUu2CkUAJwANGwcXDzIAETwP2JfKIgA)
 
 **問68**
+こちらは
 
+```ts
+interface NumberMap {
+    [key: string]: number;
+}
+const map: NumberMap = {
+  one: 1,
+  two: 2,
+  three: 3,
+}
+
+// no error, but incorrect, this key does *not* exist
+const lol = map.weoiroweiroew;
+
+// Also cannot do this
+// 'map' refers to a value, but is being used as a type here.
+type MyKeys = keyof map;
 ```
-WIP
+
+現状mapに割り当てられている実際のproperty以外のプロパティを受け入れてしまっています 実際に渡したもpropertyをもつ型のみを受け入れるようにしてください(map.weoiroweiroewをエラーにししてください)
+
+また type MyKeys = keyof map;を期待する結果であるone | two | threeにしてください
+
+```ts
+interface NumberMap {
+   [key: string]: number;
+}
+
+function careteMap<T extends NumberMap>(v: T){
+ return v
+}
+
+const map = careteMap({
+ one: 1,
+ two: 2,
+ three: 3,
+})
+
+const lol = map.weoiroweiroew;
+
+type MyKeys = keyof typeof map;
 ```
+
+[playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgHIFcC2AjaBZOAB2QG8BYAKGWuQG0BrCATwC5kBnMKUAcwF02ILLigBuSgF9K0ijHQgEYYAHsQyBHCgRIBQgB4AKsggAPSCAAm7NMPxEAfAAoAbmwMBKclWRaw6KGrOkjIIqpzImETIALzqmtoQuo5e1KoQbACMADSU1GAA7spsAEw53mAAFlrpyADMZRLuMs0UAPStyCDKxlBQylBZyNjoYMigob0QioOVwNaMTMgWyhDWAFRdYGvGJnNglKEg4QA2yscxEUQAdPkQysB9tw8r+eIUlO3IAILH7N0aIE2S26s3YlDATEIKDwTAA0sxrLEFsoYMgIVCUZdCKIgA)
 
 **問69**
 
