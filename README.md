@@ -1,4 +1,4 @@
-# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/4/29)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/5/10)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
@@ -6,8 +6,9 @@
 
 WIP
 
-※2020GW中に問題や答え精査します
-```
+```text
+- 問題を修正(2020/5/10)
+- 問題を追加(2020/5/6)
 - 問62、63、64を追加(2020/4/29)
 - 問2の問題を修正(2020/4/27)
 - 説明・例文を追加(2020/4/26)
@@ -28,7 +29,7 @@ WIP
 ```ts
 const greeting = (value) => "hello!" + value
 ```
-関数`greeting` は `"hello!world!"`を返す関数です(文字列を返します)。
+関数`greeting` は `"hello!world!"`など、任意の文字列返す関数です。
 引数`value`に型注釈してください
 
 > ここまでが「問題」です。
@@ -121,13 +122,13 @@ type Omited = Omit<Foo, "age">;
 こちら
 
 ```ts
-const user = { name: "kenji", age: 98};
+const user = { name: "kenji", age: 98 };
 ```
 
 のuserに推論される型は何ですか。またその理由を教えてください。
 
 ```ts
-{name: string, age: number}
+{ name: string, age: number }
 
 JavaScriptのオブジェクトはconstであれ(freezeしない限り)書き込みが可能です。
 それそれのプロパティ値はあとで書き込めるようにwindeningされ、それぞれのプロパティの型はプリミティブ型になります。
@@ -140,7 +141,7 @@ as constか型注釈をすることです。(下記playground)
 
 **問6**
 
-`T extends U ? X : Y` はどのような意味になりますか 
+`T extends U ? X : Y` はどのような意味になりますか
 
 ```ts
 // Conditional types
@@ -193,8 +194,7 @@ type result = FunctionPropertyNames<Part>
 
 [playground](http://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgApymZBvAUMg5EOAWwgC5kBnMKUAcwBp9C56KiBXEgI2mcLI4AE2EAKAJSUQ3PlFwBfXLgQB7EDWSqeAK2QBeHCwLEylAEQBrCCB3BzA1u0oBOF44IjhlSQYB8yACMyABUyABMispgAJ4ADigAYpwgCGDA6qhQqgmYMQBypBBUADwAKgGGeIIA2gDSyKDI1jGqMMhlALqUZfWdyBAAHpAgwlTIyanp6sgA-MgN0hAAbtCKNS1tHZ3R8ShQxZwANliGk2kZIFk50LGFZKXomH5AA)
 
-**問8 wip**
-
+**問8**
 neverとはどんな型ですか
 
 ```ts
@@ -276,9 +276,9 @@ Nullableな型を作ってください
 ```ts
 type PropNullable<T> = {[P in keyof T]: T[P] | null};
 
-interface User {name: string, age: number, money: null}
+interface User { name: string, age: number, money: null }
 
-const obj:PropNullable<User> = {name: "kenji", age: 99, money: null}
+const obj:PropNullable<User> = { name: "kenji", age: 99, money: null }
 ```
 
 **問13**
@@ -287,11 +287,11 @@ const obj:PropNullable<User> = {name: "kenji", age: 99, money: null}
 
  ```ts
 let createObj = (obj) => {
-    let o = {}
-    for(const key in obj){
-      o[key] = String(obj[key]);
-    }
-    return o;
+  let o = {}
+  for(const key in obj){
+    o[key] = String(obj[key]);
+  }
+  return o;
 }
 
 const anotherFun = createObj;
@@ -300,16 +300,27 @@ const anotherFun = createObj;
 のcreateObj型を定義してください
 
  ```ts
-  let createObj = <T>(obj:T): { [P in keyof T]: string} => {
-     let o = {} as {[P in keyof T]: string}
-     for(const key in obj){
-        o[key] = String(obj[key]);
-     }
-     return o;
+let createObj = <T extends unknown>(obj:T) => {
+  let o = {} as {[P in keyof T]: string}
+  for(const key in obj){
+      o[key] = String(obj[key]);
   }
+  return o;
+}
+const anotherFun = createObj;
 
- const anotherFun = createObj;
+
+////or////
+let createObj = <T, >(obj:T) => {
+  let o = {} as {[P in keyof T]: string}
+  for(const key in obj){
+    o[key] = String(obj[key]);
+  }
+  return o;
+}
  ```
+
+ [playground](https://www.typescriptlang.org/play?ts=3.8.3&ssl=15&ssc=6&pln=9&pc=4#code/ATA2FMBdgYwJ3AQ0uA8gIwFbALzADwAqANAHwAUA9lgFyECUupwA3gFAicTSW6sC+wRAGdWAbQAKwAJYA7YAGtwAT0oAzYIQC6NYMMhw5Ac34dOwNZTjkYlWfsUqZ86pnrtz5ymKXKtfAGUDYyosHxUtegBuM05TTwRIAFc4FxiQUzYAeiywKFgEZDQsPiJgcAAPFFkAE1Ek2QVZSgB3WQpXOkYcZnYcz25gXjwWQRFxKTlHVQ1tXX1DWRNs3PNLa1t7aF9nIax3Fc9Ob19-PCDFo1DMcL9ow-NTfvNElLSH002HRGbIAAtwHAAGINPjwJAoDCYIA)
 
  **問14**
  TODO
@@ -340,16 +351,16 @@ arr(["a", 1]);
 `widening`とはなんですか説明してください。
 
 ```ts
-型推論によってリテラル型を変数に代入した際にプリミティブ型に拡張されること
-例えば、
+// 型推論によってリテラル型を変数に代入した際にプリミティブ型に拡張されること
+// 例えば、
 
 let a = "a" //string
 
-constでは再代入はできないので`a`型というリテラル型になるが、letは再代入可能なので推論は拡張されプリミティブ型になる
+// constでは再代入はできないので`a`型というリテラル型になるが、letは再代入可能なので推論は拡張されプリミティブ型になる
 
 let a: "a" = "a" //"a"
 
-このように型注釈をつけることでa型というリテラル型になる(型注釈はwideningより優先される)
+// このように型注釈をつけることでa型というリテラル型になる(型注釈はwideningより優先される)
 ```
 
 **問17**
@@ -368,30 +379,12 @@ console.log(a); // a は number | undefined 型
 
 aがunion型になるのはなぜか
 
-```ts
-a宣言時に初期化されていない & 型注釈されていないことでif文がtrueになるまでundefined、その後aを参照すると`number` と `undefined`の可能性があるから。初期化なし、型注釈なしの変数はコンテキストによって型が変わる(アンチパターン)
-```
+a宣言時に初期化されていない & 型注釈されていないことでif文がtrueになるまでundefined、その後aを参照すると`number` と `undefined`の可能性があるから。
+初期化なし、型注釈なしの変数はコンテキストによって型が変わる(アンチパターン)
 
 **問18**
 
-`let`で変数初期化時に型注釈としてunion型(`string | null`) にする場合の挙動を説明してください。
-
-```ts
-//WIP
-
-let nullOrString: string | null = "string"
-
-console.log(nullOrString.length) //string。union型が失われるが...
-
-nullOrString = null //代入可能 string | nullになっている
-
-nullOrString = "stringAgein"; // 注釈はstring | nullのまま
-
-nullOrString = 123; // Error
-
-```
-
-[playground](https://www.typescriptlang.org/play/index.html#code/DYUwLgBAdgrswHkBOBlMSCWUDmAuCAzulthAD7RzAQC8EAREZjvRAFBsDGA9lAd6AB0wbtgAUseMjTNswkDjAALAJQQA9OqYlAQAwwoGXoGj1QDIMgRk1A8QyAYhkDRDCcEOOkxKmI5aleBvWBjuUCmioD3yoC-AYRupBTOgNYMgFYMgMYMgGYMgCIMNk5U0mEejGEAgtggWPQA3N4QgBc2gBOJgPYM2u4RVIB2DIB+DI2pUq6yHgCMAEwAzMWaEACiSEjcSEA)
+WIP
 
 **問19**
 
@@ -406,24 +399,46 @@ const num = a && "hoge";
 
 ```ts
 0 | "hoge"
+// a && b is equivalent to a ? a : b
+// aはnumberで、それがfalseになる場合は0。なので 0 | "hoge"
+// 仮にaの初期値が""(空文字)の場合、stringなので、falseになる場合は、"" | "hoge"になることを確認してください
 ```
 
 **問20**
+type narrowing(型の絞り込み)とはなんですか
 
-WIP
-
-```ts
-型の絞り込み (type narrowing)
+```text
+基本的にはUnion型の型情報をどれかに絞り込むこと。
+コンパイル時のタイプチェッカーに実行時の値に関する型情報を伝えること
 ```
+
+絞り込む方法はいくつかあります
+
+- Type predicates
+- Instanceof Narrowing
+- typeof Narrowing
+- Subtyping
+
+
+[Type Narrowing in TypeScript](https://medium.com/@jackhmwilliams/type-narrowing-in-typescript-44a6757c5a64)
+[Widening and Narrowing in Typescript](https://sandersn.github.io/manual/Widening-and-Narrowing-in-Typescript.html)
 
 **問21**
+- 「return文はあるけどreturnせずに関数が終了する場合がある」 ->  例: string | undefined
+- 「return文がない」 -> void
+これらの使い分けを教えてください
 
-WIP
+voidは返す値をコンパイラに「無視してください」と伝える場合に使います。
+実際には、runtime時、undefinedとして値は返っています。
 
-```ts
-「return文はあるけどreturnせずに関数が終了する場合がある」 ->  例: string | undefined
-「return文がない」 -> void
-```
+undefinedはundefinedという意味のある値を返し、呼び出し元で使う場合
+
+[72 なぜ TypeScriptはvoid とundefinedを区別しているか](https://kenjimorita.jp/typesript-check-108/)
+
+voidはその真偽を評価させることはできないところがundefinedとの違い
+functionのcallbackで使う場合promptやalertなど実行するのみで何も返さない型のreturn型にvoidではなくundefinedを指定すると、明示的にundefinedを返さなくてはいけない。voidに指定すると、返す型に「意味がない」、「単に無視して」とTSに伝えることができる
+
+[playground](https://www.typescriptlang.org/play#code/MYewdgzgLgBAZiEMC8MBuICWATGAGAbhgHpiYBXMbAUzkzGuwChRJYAjAQwCcV5LgUTOAAUASgDeAXyKl0WZq2gwuALz5du42WQw4gA)
 
 **問22**
 [contextual typeがある状態](https://qiita.com/uhyo/items/6acb7f4ee73287d5dac0)というのはどういう状態のことですか
