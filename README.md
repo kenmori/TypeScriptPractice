@@ -2,6 +2,9 @@
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
+- [author](https://kenjimorita.jp/aboutme)
+- [【TypeScript】仕事で使える!TypeSript中級者になる為に知っておくと良い108個のこと](https://kenjimorita.jp/typesript-check-108/)
+
 **TypeScript and Playground練習問題集更新情報**
 
 WIP
@@ -444,7 +447,7 @@ functionのcallbackで使う場合promptやalertなど実行するのみで何�
 [contextual typeがある状態](https://qiita.com/uhyo/items/6acb7f4ee73287d5dac0)というのはどういう状態のことですか
 
 ```ts
-TypeSciriptは引数の型注釈で型を宣言しなくてはいけない、が、
+TypeScriptは引数の型注釈で型を宣言しなくてはいけない、が、
 
 型推論の時点で期待される型があらかじめわかっている状態(contextual tyipingがある状態)なら書かなくても良い
 
