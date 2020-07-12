@@ -1581,15 +1581,16 @@ const aa = a["name"] // error
 
 こちらの
 ```ts
-type A = {name: string}
-type B = {age: number}
+type A = { name: string }
+type B = { age: number }
 ```
 
-AとBのkeynameとageを合わせた`name | age`なUnion型を作ってください
+AとBのkeyであるnameとageを合わせたtype、
+`name | age`となるUnion型を作ってください
 
 ```ts
-type A = {name: string}
-type B = {age: number}
+type A = { name: string }
+type B = { age: number }
 type T1 = keyof (A & B)
 ```
 
@@ -1668,7 +1669,7 @@ function fooAndBar(arg: Bar | Foo){
   }
 }
 
-const result = fooAndBar({foo: 9, common: "fa"});
+const result = fooAndBar({ foo: 9, common: "fa" });
 ```
 
 [playground](https://www.typescriptlang.org/play/#code/JYOwLgpgTgZghgYwgAgGIHt3IN4FgBQyRyMmAXMiAK4C2ARtANwHHILo03ogUDOYUUAHNm+AL4ECoSLEQoAQnCg4WxOkorV6TVUXadufAcNET8BGFRAIwwbsmC8M6ABRKhFOCACeASk9QQg68aJgqhMhQEGBUUCDI7gB0pFgAhAC86chWACYQMKAQOaYWVjZ28SkAgiA5ilBugRT1yAA+oei+eBHAMC6Ozo1Cvl26kdGx8UkpqmLIEAA2vCjdrFExcQmBiepQswRmBOwg-OO8VAtgyFnVtfUu2CkUAJwANGwcXDzIAETwP2JfKIgA)
