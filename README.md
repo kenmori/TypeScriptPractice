@@ -1764,12 +1764,61 @@ Object.keys(me).forEach(key => {
 
 **問70**
 
+[こちら](https://www.typescriptlang.org/play?ssl=13&ssc=8&pln=13&pc=70#code/C4TwDgpgBAqgzhATlAvFA3gWAFBT1ASwBMAuKOYRAgOwHMd8oIBbAQwIBsyKq6H8wrOHADuAe0SlylGvWwBfHDlCRYCRAAVEYgGadoaeEigAyDFGqtmEbjLoAaKETEAjW71pRF2HDoCu1ADGwARi1ITU6sAAFH7qZEaIAJQY-HiBYXBiHBAAdBxitLHqSTjeODRR0ejEZABEAIx1jizsXFB1OqwAArRsnLkZzM1QgsLikvUADDMjltb1AEzLdfJJQA)は
+
+```ts
+type User = {
+    id: string
+    email: string
+    password: string
+}
+
+type UserProfile = User & { name: string, dob: string }
+
+function insert(user: User) {
+    console.log(user)
+}
+
+insert({id: "1", email: "fa@gmail.com", password: "000", name: "222"})
+
 ```
-WIP
+
+過剰なプロパティチェックをしてくれているのでエラーがでますが、
+[こちら](https://www.typescriptlang.org/play?#code/C4TwDgpgBAqgzhATlAvFA3gWAFBT1ASwBMAuKOYRAgOwHMd8oIBbAQwIBsyKq6H8wrOHADuAe0SlylGvWwBfHDlCRYCRAAVEYgGadoaeEigAyDFGqtmEbjLoAaKACsxAI1u9aURdhw6ArtQAxsAEYtSE1OrAABT+6mRGiACUGPx4QeFwYhwQAHQcYrRx6sk4PplRwFDxSFq6+qgYxGQARACMrY4s7FxQrTqsAAK0bJx5mcxdUILC4pJtAAzL05bWbQBMW9Mu7v0QdDQQSK0+NNElddp6uclAA)
+
+```ts
+const userProfile = {id: "1", email: "fa@gmail.com", password: "000", name: "222", job: "engineer"}
+insert(userProfile)
 ```
 
+のようにリテラルじゃないケースの場合TypeScriptは過剰なプロパティチェックをやめてしまいます
 
+insertがUser型のみしか受け入れたくないように修正してください
 
+```ts
+type User = {
+    id: string
+    email: string
+    password: string
+}
+
+type UserProfile = User & { name: string, job: string }
+
+function insert<T extends User>(user: Exact<User, T>) {
+    console.log(user)
+}
+
+type Exact<TExpected, TActual extends TExpected> = TExpected extends TActual ? TExpected: never;
+
+const userProfile = {id: "1", email: "fa@gmail.com", password: "000", name: "222", job: "engineer"}
+insert(userProfile) // 期待するerror
+
+// and more: 関数の中で過剰なオブジェクトを受け入れて、type guardで型チェック。正統だったら実行するなども
+```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAqgzhATlAvFA3gWAFBT1ASwBMAuKOYRAgOwHMd8oIBbAQwIBsyKq6H8wrOHADuAe0SlylGvWwBfHDlCRYCRAAVEYgGadoaeEigAyDFGqtmEbjLoAaKACsxAI1u9aURdhw6ArtQAxsAEYtSE1OrAADwAKkwAHsAQ1ERwakgAfAAU-upkAKKJrCExRoiOcVkAlBj8eEHhcGIcEAB0HGK0eeo1OD7K4NDFpbFxxZAhEERVAIIh-qwcSSlpGROJUylEWahQm9szq6npBwvASysA-AeTENNS1BAAbkgA3ErYTVHAUPlILS6fT7dDEMgAIgAjBDHCx2FwoBCdKwAAK0NicdpNZiwqCCYTiSSQgAMZLxlmskIATLS8S53EjUrQaBAkBD5FAAPRcqCsHA0aK9QHaPRtGpAA)
+
+[see](https://www.reddit.com/r/typescript/comments/i8vxz2/is_there_an_exactt_advanced_type_something_that/)
 ---
 
 WIP
