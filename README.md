@@ -1,4 +1,4 @@
-# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/5/10)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/8/16)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
@@ -10,6 +10,7 @@
 WIP
 
 ```text
+- 問題を追加(2020/8/16)
 - 問題を修正(2020/5/10)
 - 問題を追加(2020/5/6)
 - 問62、63、64を追加(2020/4/29)
@@ -1723,9 +1724,43 @@ type MyKeys = keyof typeof map;
 
 **問69**
 
+こちらは方エラーがでます
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAChBOBnA9gOygXigbwLACgopUBDAWwgC4pFh4BLVAcwBooSmriBXMgIwRt6AE2qpeA+CwIBfAgGM0tKBUw5SFagCISWthy4BGQ0NEBOCzIDcBAgHk+AKwjzgAOgDWEEIgAUFAEo3ADNkeABREnkAC18vEEwAPhwCIkVUFAAbCDdM5CZ-CABteIBdANkAoA)
+
+```ts
+type Person = {
+  name: string, age: number, id: number,
+}
+const me = {name: "a", age: 11, id: 999};
+
+Object.keys(me).forEach(key => {
+  console.log(me[key]) // error
+})
 ```
-WIP
+
+正しく修正してください
+
+```ts
+
+// コンパイラはmeがオブジェクトリテラルなことを知っていてそのkeyもまた具体的に "name" | "age" || "id"ということを知っています。keyはstringでかなり広範囲なものを差し、unionなそれらにアサインできません。この場合、keyが何かをより具体的に明示するする必要があります
+
+type Person = {
+  name: string, age: number, id: number,
+}
+const me = {name: "a", age: 11, id:999};
+
+Object.keys(me).forEach(key => {
+  console.log(me[key as keyof Pertion]) // ok
+})
+
+
+// see https://www.reddit.com/r/typescript/comments/edzgtw/help_no_index_signature_with_a_parameter_of_type/
+
+// other interfaceに追加する方法 https://fettblog.eu/typescript-better-object-keys/
 ```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAChBOBnA9gOygXigbwLACgopUBDAWwgC4pFh4BLVAcwBooSmriBXMgIwRt6AE2qpeA+CwIBfAgGM0tKBUw5SFagCISWthy4BGQ0NEBOCzIDcBAgHk+AKwjzgAOgDWEEIgAUFAEo3ADNkeABREnkAC18vEEwAPhwCIkVUFAAbCDdM5CZ-CABtePZEKHjkYNgEFFQAXQDZAKA)
 
 **問70**
 
