@@ -1813,7 +1813,29 @@ type Exact<TExpected, TActual extends TExpected> = TExpected extends TActual ? T
 const userProfile = {id: "1", email: "fa@gmail.com", password: "000", name: "222", job: "engineer"}
 insert(userProfile) // 期待するerror
 
-// and more: 関数の中で過剰なオブジェクトを受け入れて、type guardで型チェック。正統だったら実行するなども
+// other: 関数の中で過剰なオブジェクトを受け入れて、type guardで型チェック。正統だったら実行するなども
+
+function _insert(user: User) {
+ console.log(user)
+}
+
+function insertUser(user: unknown) {
+    if(isUser(user)) {
+        //user arg is now verified to be of shape User, safe to insert into db
+        _insert(user);
+    }
+}
+
+//do your check
+function isUser(user: unknown): user is User {
+    if(typeof user !== "object" || user === null)
+        return false;
+
+    const neededKeys: Array<keyof User> = ["email", "id", "password"];
+    const actualKeys = Object.keys(user);
+
+    return new Set([...neededKeys, ...actualKeys]).size === neededKeys.length;
+}
 ```
 
 [playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAqgzhATlAvFA3gWAFBT1ASwBMAuKOYRAgOwHMd8oIBbAQwIBsyKq6H8wrOHADuAe0SlylGvWwBfHDlCRYCRAAVEYgGadoaeEigAyDFGqtmEbjLoAaKACsxAI1u9aURdhw6ArtQAxsAEYtSE1OrAADwAKkwAHsAQ1ERwakgAfAAU-upkAKKJrCExRoiOcVkAlBj8eEHhcGIcEAB0HGK0eeo1OD7K4NDFpbFxxZAhEERVAIIh-qwcSSlpGROJUylEWahQm9szq6npBwvASysA-AeTENNS1BAAbkgA3ErYTVHAUPlILS6fT7dDEMgAIgAjBDHCx2FwoBCdKwAAK0NicdpNZiwqCCYTiSSQgAMZLxlmskIATLS8S53EjUrQaBAkBD5FAAPRcqCsHA0aK9QHaPRtGpAA)
