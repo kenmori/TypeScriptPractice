@@ -1604,8 +1604,11 @@ type MyUnionType =
   | { foo: 'a', bar: 1 }
   | { foo: 'b', bar: 2 }
   | { foo: 'c', bar: 3 }
+```
+
 型を type Foos = 'a' | 'b' | 'c' このようになるようにしてください
 
+```ts
 type MyUnionType =
   | { foo: 'a', bar: 1 }
   | { foo: 'b', bar: 2 }
@@ -1841,7 +1844,25 @@ function isUser(user: unknown): user is User {
 [playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAqgzhATlAvFA3gWAFBT1ASwBMAuKOYRAgOwHMd8oIBbAQwIBsyKq6H8wrOHADuAe0SlylGvWwBfHDlCRYCRAAVEYgGadoaeEigAyDFGqtmEbjLoAaKACsxAI1u9aURdhw6ArtQAxsAEYtSE1OrAADwAKkwAHsAQ1ERwakgAfAAU-upkAKKJrCExRoiOcVkAlBj8eEHhcGIcEAB0HGK0eeo1OD7K4NDFpbFxxZAhEERVAIIh-qwcSSlpGROJUylEWahQm9szq6npBwvASysA-AeTENNS1BAAbkgA3ErYTVHAUPlILS6fT7dDEMgAIgAjBDHCx2FwoBCdKwAAK0NicdpNZiwqCCYTiSSQgAMZLxlmskIATLS8S53EjUrQaBAkBD5FAAPRcqCsHA0aK9QHaPRtGpAA)
 
 [see](https://www.reddit.com/r/typescript/comments/i8vxz2/is_there_an_exactt_advanced_type_something_that/)
----
+
+**問71*
+
+```ts
+
+```
+
+
+**問72*
+
+```ts
+
+```
+
+**問73*
+
+```ts
+
+```
 
 WIP
 
