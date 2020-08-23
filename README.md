@@ -2123,15 +2123,83 @@ function get<T, K extends keyof T>(activityLog: T, key: K){
 }
 let lastEvent = get(activityLog, "lastEvent")
 
+// or
+type Get = <T, K extends keyof T>(activityLog: T, key: K) => T[K]
+
+let get:Get = (activityLog, key) => {
+	return activityLog[key]
+}
+
  ```
 
  [playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAggxsAlgN0aAMgewOZQLxQDeAsAFACQANgIYDOwAoshAHbABcUAItcBGeQjM2tTiQrlEAE070ATohbYB5JAFsI9amrCcefFaEicARACUI1KSagAfKCYDqCviYEBfANoBdMu7JklBDAUNQIKGggWNic8EioGDj4RFA09EysHFAsEADu3LwQABQAlAA0UEKZolCehFDSpgCMJhXqmsDautl5BXylbeAQphZWJu7e-qQBpABmAK4s4ZgsUNjBADwAKhUA0pUAHnwsUrRQANYQIJizUFsAfEVh8ZHRnDsXV5y7JeLkcsF5nJVs8IolsJ5LiBfKQpkEQmlGMIQgR1sAnuEElEcBUTIiMmwTCUgA)
 
 **問78**
 
+
+こちら
+
 ```ts
 
+ type ActivityLog = {
+	lastEvent: Date
+	events: {
+		id: string
+		timestamp: Date
+		type: "Read" | "Write"
+	}[]
+}
+
+let activityLog: ActivityLog = { lastEvent: new Date(), events: [{ id: "1", timestamp: new Date(), type: "Read"}]}
+
+type Get = <T, K extends keyof T>(activityLog: T, key: K) => T[K]
+
+const get: Get = (activityLog, key) => {
+	return activityLog[key]
+}
+
 ```
+
+のgetがよりネストされた値の型を返す
+(`get(activityLog, "events", 0, "id")`を実行したら `string`を返す)
+ようにgetをオーバーライドで定義して、
+内部の実装を変更して
+それぞれのkeyを参照に型を返すようにしてください
+
+
+```ts
+type ActivityLog = {
+	lastEvent: Date
+	events: {
+		id: string
+		timestamp: Date
+		type: "Read" | "Write"
+	}[]
+}
+
+let activityLog: ActivityLog = { lastEvent: new Date(), events: [{ id: "1", timestamp: new Date(), type: "Read"}]}
+
+
+type Get = {
+	<O extends object, K1 extends keyof O>(o: O, key: K1): O[K1]
+	<O extends object, K1 extends keyof O, K2 extends keyof O[K1]>(o: O, key: K1, key2: K2): O[K1][K2]
+	<O extends object, K1 extends keyof O, K2 extends keyof O[K1], K3 extends keyof O[K1][K2]>(o: O, key: K1, key2: K2, key3: K3): O[K1][K2][K3]
+}
+
+
+let get:Get = (o: any, ...keys: string[]) => {
+	let result = {...o}
+	keys.forEach(k => {
+		result = result[k]
+		return result
+	})
+}
+let lastEvent = get(activityLog, "events", 0, "id")
+```
+
+[playground](https://www.typescriptlang.org/play?#code/LAKALgngDgpgBAQQMZgJYDdWQDIHsDmcAvHAN6gCQANgIYDOYAoujAHZgBccAIjWDJRgt2dLuRAUKqACZcGAJ1St8lCmgC2MBjXVQuvfqsiwuAIgBKMGtNNwAPnFMB1Rf1OUAvgG0AuqA+goFQwYHA0KBhYEHj4XMhomDgExGRwtAzMbJxwrDAA7jx8MAAUAJQANHBCWaJwXqRwMmYAjKaVGlpgOno5+YX8Ze3QMGaW1qYePgEggeDDcADiISniFAA8APJVAB78rNJ0cLgARgBWMCiVANLNO3sHcADWMBC4AGZwGwB8xbhcG5VnhAuDdSv8vDc-BJNnc2A8TudLnAbrD9ocge9PtcAEyoh4Yj4bCHNHw-P5Yp4vEHNQEvbEg7Fgz7EnwQ7FQ9ZbGC7OGHBEXMDXW7c+7ol6YgHI3Ei3mU16ElnXADMeLF8uZkLZpN+-1pwORNLl9KleqVIKVTKJmqu7IhSqh01mwVC+BCHCWoRIOrCrAglQAdIGgbUFEp8L5SsQvmRKM64PItABXKiesiB-24aYUYP+t64eSMcIAC2KjyjMYkFATdGTqerta8jw5VZCifkrHjSZTnlK-iCy3STGEqddYGK4QSURilVM1REbTgAAYZzJTKUgA)
+
+
 
 **問79**
 
