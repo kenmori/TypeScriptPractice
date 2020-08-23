@@ -1141,13 +1141,25 @@ type StrFunc = (arg: string) => string;
 type NumFunc = (arg: number) => string;
 
 declare const obj: StrFunc | NumFunc;
-obj("fa");
+obj("fa"); // Argument of type 'string' is not assignable to parameter of type 'never'.
 ```
 
 なぜですか
 
 ```ts
-objの型はStrFuncかNumFuncの型であり、それぞれの引数の型が違うためどちらの関数が呼び出されてもいいようにどちらの引数にも対応できる型を渡す必要があります
+// objの型はStrFuncかNumFuncの型であり、それぞれの引数の型が違うためどちらの関数が呼び出されてもいいようにどちらの引数にも対応できる型を渡す必要があります
+
+
+type StrFunc = (arg: string) => string;
+type NumFunc = (arg: number) => string;
+type StrOrNumFunc = <T>(arg: T) => string
+
+declare const obj: StrOrNumFunc
+obj("fa");
+
+// or
+
+(obj as StrFunc)("fa"); // unnn...
 ```
 
 **問48**
@@ -1727,7 +1739,7 @@ type MyKeys = keyof typeof map;
 
 **問69**
 
-こちらは方エラーがでます
+こちらは型エラーがでます
 
 [playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAChBOBnA9gOygXigbwLACgopUBDAWwgC4pFh4BLVAcwBooSmriBXMgIwRt6AE2qpeA+CwIBfAgGM0tKBUw5SFagCISWthy4BGQ0NEBOCzIDcBAgHk+AKwjzgAOgDWEEIgAUFAEo3ADNkeABREnkAC18vEEwAPhwCIkVUFAAbCDdM5CZ-CABteIBdANkAoA)
 
@@ -1746,7 +1758,7 @@ Object.keys(me).forEach(key => {
 
 ```ts
 
-// コンパイラはmeがオブジェクトリテラルなことを知っていてそのkeyもまた具体的に "name" | "age" || "id"ということを知っています。keyはstringでかなり広範囲なものを差し、unionなそれらにアサインできません。この場合、keyが何かをより具体的に明示するする必要があります
+// コンパイラはmeがオブジェクトリテラルなことを知っていてそのkeyもまた具体的に "name" | "age" | "id"ということを知っています。keyはstringでかなり広範囲なものを差し、unionなそれらにアサインできません。この場合、keyが何かをより具体的に明示するする必要があります
 
 type Person = {
   name: string, age: number, id: number,
@@ -1845,24 +1857,242 @@ function isUser(user: unknown): user is User {
 
 [see](https://www.reddit.com/r/typescript/comments/i8vxz2/is_there_an_exactt_advanced_type_something_that/)
 
-**問71*
+**問71**
+
+こちらの
+
+```ts
+
+const obj = {a: "A", b: "B", c: 1}
+
+```
+
+`obj` から`value`の`literal`な`union type`を作ってください。(期待する結果 -> `"A" | "B" | 1`)
+
+```ts
+const a = {a: "A", b: "B", c: 1} as const
+type LiteralsUnion = typeof a>[keyof typeof a]
+```
+
+[playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBAhjAvDA3nAXDARAQSwGhgCNMsAhAmYTARgF94IrxoBYAKCgE8AHAUxgAZAJZQ+AJzgAbCAFUww8Ehgxu-EADN4AbQDWfLptW8+RuAF0OQA)
+
+
+**問72**
+
+このようなオブジェクトがあります
+
+```ts
+const userByIdResult = {
+  data: {
+    userById: {
+       id: 123,
+       username: 'joseph'
+    }
+  }
+}
+
+const userByUsernameResult = {
+  data: {
+    userByUsername: {
+       id: 123,
+       username: 'joseph'
+    }
+  }
+}
+```
+
+`userById` と `userByUsername` は同じ型を返します。
+
+ただこちら
+
+```ts
+type GraphQLResponse<QueryKey, ResponseType> = {
+  data: {
+    [QueryKey]: ResponseType
+  }
+}
+
+interface User {
+    username: string
+    id: string
+}
+
+type UserByIdResponse = GraphQLResponse<'userById', User>
+type UserByUsernameResponse = GraphQLResponse<'userByUsername', User>
+```
+
+ではうまくいきません。
+
+[playground](https://typescript-play.js.org/#code/C4TwDgpgBA4gTgQzACwIoBkBKEDOYD2AdjhADyoCuEcIA0hCADRTZ5EkAq4EAfFALxQA3gCgoUACYJgCAFzCx4qAG1K1OgwC681gWIQukRQF8RpkQEtCwagDMEAY2gBVEnAVKoFN4QQBbCHkcYDgrAHNFcQsJIJDwsxERUEgoV2oAIRAASQlddmhBeCQ0LFw9ElIAcm8M7IlK5jS4HiTuVLdMpt8AvP0BWEQUDF6K6o6QLv8IBvbqFpEgA)
+
+正しく修正してください
+
+
+```ts
+// 1
+// 'QueryKey' is not assignable to type 'string | number | symbol'
+// QueryKeyはstring、nnumber、symbleになりうるので型を絞り込む。この場合string
+
+// 2 QueryKeyがanyとして推論されているので修正する(computed valuには識別する名前が必要です) see: https://stackoverflow.com/questions/44110641/typescript-a-computed-property-name-in-a-type-literal-must-directly-refer-to-a-b
+
+type GraphQLResponse<QueryKey extends string, ResponseType> = {
+  data: {
+    [K in QueryKey]: ResponseType
+  }
+}
+
+interface User {
+    username: string
+    id: string
+}
+
+type UserByIdResponse = GraphQLResponse<'userById', User>
+type UserByUsernameResponse = GraphQLResponse<'userByUsername', User>
+
+```
+
+[playground](https://typescript-play.js.org/#code/C4TwDgpgBA4gTgQzACwIoBkBKEDOYD2AdjhADyoCuEcIA0hCFBAB7ASEAmOUOwcAloQDmAGijY8REgBVwEAHxQAvFADeAKChQOCYAgBcazVqgBtWlEFRK1OgwC6hiQWIRZkYwF9139YLZwAGYIAMbQAKokcEYmUBRRhAgAthCGvALCxlr8HGl8gkI+6uqgkFCR1ABCIACSHM5S0CrwSGhYuC4kpADk8VW1HN1iFXDyJXLlUdUjiSkNrsqwiCgY8129UyAzyRBDk9Rj6kA)
+
+**問73**
+
+このようにすると全てを許してしまいます
+
+```ts
+type TransitionStyles = {
+  entering: Object
+  entered: Object
+  exiting: Object
+  exited: Object
+  [key: string]: Object
+}
+
+const b:TransitionStyles = {
+	entered: {},
+	exiting: {},
+	exited: {},
+	entering: {},
+	eee : "fa"
+}
+```
+
+特定のkeyだけにしてください
+
+```ts
+type TransitionStyles<T extends string> = {
+  [K in T]: Object
+}
+
+type TransitionStylesKeys = "entered" | "exiting" | "exited" | "entering"
+const b:TransitionStyles<TransitionStylesKeys> = {
+	entered: {},
+	exiting: {},
+	exited: {},
+	entering: {},
+	fafa: "fa"
+}
+```
+
+**問74**
+
+こちらの
+```ts
+const a = {a: "A", b: "B", c: 1}
+```
+
+cの値を型とするtypeを書いてください
+
+```ts
+const a = {a: "A", b: "B", c: 1}
+
+type ExtractCValue<T extends Record<string, string | number>, V extends T[keyof T]> =  V extends number ? V : never
+
+const c: ExtractCValue<typeof a, 1> = "aaa"
+
+// or ...  I think This is not best answer.
+
+
+```
+
+**問75**
+
+こちら
+
+```ts
+const objArray = [ { foo: 1, bar: 2}, { foo: 3, bar: 4}, { foo: 5, bar: 6} ]
+```
+
+のfooの値のみが入った`1 | 3 | 5)[]`の型を返す関数を書いてください
+
+**問76**
+
+```ts
+const objArray = [ { foo: 1, bar: 2}, { foo: 3, bar: 4}, { foo: 5, bar: 6} ]
+
+function getFooValue(arr: typeof objArray){
+	return objArray.map(({foo}) => foo)
+}
+const result = getFooValue(objArray) // (1 | 3 | 5)[]
+
+```
+
+**問77**
+
+こちらの
+
+```ts
+const value = {
+	data: {
+		name: {id: 1}
+	}
+}
+```
+
+name型を抽出してください expect `{id: number}`
+
+
+```ts
+type B = typeof value["data"]["name"]
+
+// or
+
+const value = {
+	data: {
+		name: {id: 1}
+	}
+}
+
+type Data = {
+	data : {
+		name: {id: number}
+	}
+}
+
+const getNameValue = (value: Data) => {
+	return value.data.name
+}
+
+type B = ReturnType<typeof getNameValue>
+```
+
+
+**問78**
 
 ```ts
 
 ```
 
+**問79**
 
-**問72*
+```ts
+
+```
+
+**問80**
 
 ```ts
 
 ```
 
-**問73*
-
-```ts
-
-```
 
 WIP
 
