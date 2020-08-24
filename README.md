@@ -1867,11 +1867,11 @@ const obj = {a: "A", b: "B", c: 1}
 
 ```
 
-`obj` から`value`の`literal`な`union type`を作ってください。(期待する結果 -> `"A" | "B" | 1`)
+`obj` からそれぞれの値で且つ`literal`な`union type`を作ってください。(期待する結果 -> `"A" | "B" | 1`)
 
 ```ts
 const a = {a: "A", b: "B", c: 1} as const
-type LiteralsUnion = typeof a>[keyof typeof a]
+type LiteralsUnion = typeof a[keyof typeof a]
 ```
 
 [playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBAhjAvDA3nAXDARAQSwGhgCNMsAhAmYTARgF94IrxoBYAKCgE8AHAUxgAZAJZQ+AJzgAbCAFUww8Ehgxu-EADN4AbQDWfLptW8+RuAF0OQA)
@@ -2023,8 +2023,6 @@ const objArray = [ { foo: 1, bar: 2}, { foo: 3, bar: 4}, { foo: 5, bar: 6} ]
 
 のfooの値のみが入った`1 | 3 | 5)[]`の型を返す関数を書いてください
 
-**問76**
-
 ```ts
 const objArray = [ { foo: 1, bar: 2}, { foo: 3, bar: 4}, { foo: 5, bar: 6} ]
 
@@ -2035,7 +2033,7 @@ const result = getFooValue(objArray) // (1 | 3 | 5)[]
 
 ```
 
-**問77**
+**問76**
 
 こちらの
 
@@ -2075,6 +2073,60 @@ type B = ReturnType<typeof getNameValue>
 ```
 
 
+**問77**
+
+こちら
+
+```ts
+type ActivityLog = {
+	lastEvent: Date
+	events: {
+		id: string
+		timestamp: Date
+		type: "Read" | "Write"
+	}[]
+}
+
+let activityLog: ActivityLog = { lastEvent: new Date(), events: [{ id: "1", timestamp: new Date(), type: "Read"}]}
+
+
+function get(activityLog: ActivityLog, key: string){
+	return activityLog[key] // Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'ActivityLog'.
+  No index signature with a parameter of type 'string' was found on type 'ActivityLog'.(7053)
+}
+let lastEvent = get(activityLog, "lastEvent") // any
+
+```
+
+[playground](https://www.typescriptlang.org/play?#code/LAKALgngDgpgBAQQMZgJYDdWQDIHsDmcAvHAN6gCQANgIYDOYAoujAHZgBccAIjWDJRgt2dLuRAUKqACZcGAJ1St8lCmgC2MBjXVQuvfqsiwuAIgBKMGtNNwAPnFMB1Rf1OUAvgG0AuqA+goFQwYHA0KBhYEHj4XMhomDgExGRwtAzMbJxwrDAA7jx8MAAUAJQANHBCWaJwXqRwMmYAjKaVGlpgOno5+YX8Ze3QMGaW1qYePgEggSAAZgCurBG4rHD4IcXhCVExcRGJ0QSVANYwEHJgisql4hTyIQvya9uRSfheZxB+INPBoekmMJQiQNmAtgddsdHIDMuxTKUgA)
+
+は`key`を`string`にannotateされているため、`activityLog[key]`がいろいろな型を返す可能性があるためTypeScriptはanyを返しています
+
+`key`が`activityLog`に存在するプロパティのみ渡すことを保証し、その後のルックアップで適切に推論されるように`get`を型付けしてください
+
+
+ ```ts
+ type ActivityLog = {
+	lastEvent: Date
+	events: {
+		id: string
+		timestamp: Date
+		type: "Read" | "Write"
+	}[]
+}
+
+let activityLog: ActivityLog = { lastEvent: new Date(), events: [{ id: "1", timestamp: new Date(), type: "Read"}]}
+
+
+function get<T, K extends keyof T>(activityLog: T, key: K){
+	return activityLog[key]
+}
+let lastEvent = get(activityLog, "lastEvent")
+
+ ```
+
+ [playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAggxsAlgN0aAMgewOZQLxQDeAsAFACQANgIYDOwAoshAHbABcUAItcBGeQjM2tTiQrlEAE070ATohbYB5JAFsI9amrCcefFaEicARACUI1KSagAfKCYDqCviYEBfANoBdMu7JklBDAUNQIKGggWNic8EioGDj4RFA09EysHFAsEADu3LwQABQAlAA0UEKZolCehFDSpgCMJhXqmsDautl5BXylbeAQphZWJu7e-qQBpABmAK4s4ZgsUNjBADwAKhUA0pUAHnwsUrRQANYQIJizUFsAfEVh8ZHRnDsXV5y7JeLkcsF5nJVs8IolsJ5LiBfKQpkEQmlGMIQgR1sAnuEElEcBUTIiMmwTCUgA)
+
 **問78**
 
 ```ts
@@ -2092,7 +2144,6 @@ type B = ReturnType<typeof getNameValue>
 ```ts
 
 ```
-
 
 WIP
 
