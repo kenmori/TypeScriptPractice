@@ -2203,11 +2203,122 @@ let lastEvent = get(activityLog, "events", 0, "id")
 
 **問79**
 
+このような
+
+```ts
+type Type = {
+    "a": string,
+    "b": number,
+    "c": (ind: string) => void
+}
+```
+
+型がある。こちらを型パラメータにそれぞれのkeyを渡した時値型が返ってくる型を作ってください
+
+```ts
+type Type = {
+    "a": string,
+    "b": number,
+    "c": (ind: string) => void
+}
+
+type Key<K extends keyof Type> = Type[K]
+const a:Key<"a"> = "a"
+
+```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAKu0F4oG8CwAoKWoCICGOAXFAM7ABOAlgHYDmANBtrgEZFTUCuAtixOY0zYcAY3YAKGgBNiZKnQCUUBAD4oANwD2lKRgC+GDKEhQA0hBAAeU1AgAPYBGpSSUANYXNAM1jw1SOEgAbVMAXQwRTWoyKDxCcyt8HH9cAEUvPAycIA)
+
+**問80**
+
+[こちら](https://www.typescriptlang.org/play?#code/C4TwDgpgBAyg9gWwgeQEYCsIGNhQLwCwAUFFAD5QDexptUAhgFxQDOwATgJYB2A5gNw1aAXyEVqJOlFTNuAVwSoI7QZNKjJ4oXSzNUcOABsI9bqrrDVxACbZD9dtCxxubVohQZm8JGkw4rIk4AMygAChYPPwA6LABKKigAeiSoZXY4diFiYSA)は
+
+```ts
+type SomeObject =
+  | {
+      a: string;
+    }
+  | {
+      b: number;
+    }
+  | {
+      c: boolean;
+    };
+
+declare const someObj: SomeObject;
+
+if (someObj.c) { // error
+}
+
+```
+
+参照すると、エラーになります。TypeScriptが正しく推論できるようにしてください
+
+```ts
+// typeというtagを与えます
+type SomeObject =
+  | {
+      type: "a"
+      a: string;
+    }
+  | {
+      type: "b"
+      b: number;
+    }
+  | {
+      type: "c"
+      c: boolean;
+    };
+
+declare const someObj: SomeObject;
+
+if (someObj.type === "c") {
+    someObj.c
+}
+
+// or
+
+const check = (someObj:SomeObject) => {
+switch(someObj.type){
+    case "a":
+    someObj.a
+    return
+    case "b":
+    someObj.b
+    return
+    case "c":
+    someObj.c
+    return
+    default:
+        new Error("not provided type")
+    }
+}
+```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAyg9gWwgeQEYCsIGNhQLwCwAUFFAD5QDexptUokAXFAEQCGLNdUbzAzsABOASwB2AcwDcXUgF8uFaiW4MIzFqk7K6qZqICuCVBEHTtUecsUzaq9Vi3coWZqjhwANhDaizdWWbEACbYHmyC0FhwogJQfIgoGMzwSGiYOIFExMIAZlAAFPGpGAB0qvh4eKwOAJRUNkWJ6CVYxLJQEB580JSWxMRRMbhYABbYANb4BY1pjClN2MB1eAB89VlEfADuwsCjhQlpZeAQNUp0WGzdrByMDYelbDYRwPqColA2l9caLHfmM1KqGeEFe7y+V2gLAc-zogOarXMLzeohsIRybH0HmAsKcUFEEC2UAAooJBHBBPkWKI4LgwOSAG7CEJBegnFg1GyWSxAA)
+
+
+
+
+**問81**
+
 ```ts
 
 ```
 
-**問80**
+**問82**
+
+```ts
+
+```
+
+**問83**
+
+```ts
+
+```
+
+**問84**
 
 ```ts
 
