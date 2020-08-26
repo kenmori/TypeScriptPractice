@@ -1,4 +1,4 @@
-# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/8/16)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/8/26)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
@@ -10,6 +10,7 @@
 WIP
 
 ```text
+- 問題を追加(2020/8/25)
 - 問題を追加(2020/8/16)
 - 問題を修正(2020/5/10)
 - 問題を追加(2020/5/6)
@@ -2346,11 +2347,66 @@ see: (https://twitter.com/uhyo_/status/1197098731503411200?ref_src=twsrc%5Etfw%7
 
 必須プロパティのKeyをUnion型を返す型を作ってください
 
-
 ```ts
 type RequireKeys<T> = {[K in keyof T]-?: {} extends Pick<T, K> ? never : K}[keyof T]
 
+
+// 例えば Tが{id: string, age?: number}の場合
+
+// -?はオプショナルなキーが渡ってきてもは必須になる。
+// type TObj = {id: string, age?: number}
+// type RecordT<TObj> = {[K in keyof TObj]-?: TObj[K]}
+// type RequireTObj = RecordT<TObj>
+// type RequireTObj = {
+//     id: string;
+//     age: number;
+// }
+// この処理をしないと最後に
+// type RequireTObj = string | number | undefinedのようなオプショナルな場合の値型であるundefinedがついてくる
+
+//  {} extends Pick<T, K>のイメージ。それぞれ
+// {} extends {id: string}
+// {} extends {age? number}
+
+type Id = Pick<{id: string}, "id">
+type Age = Pick<{age?: number}, "age">
+const id: Id = {} // error
+const age: Age = {} // ok
+type Result = RequireKeys<TObj> // "id"
+
+// オプショナルなものは{}にassignableなので neverが返り、そうでないidはKが返る
+type BB = RequireKeys<{id: string, age?: number}>
+// type BB = {
+//     id: "id";
+//     age: never;
+// }
+
+// ageがnever, idがKの値型になる
+
+// 最後に
+// [keyof T]で値型にアクセス
+// 値型がnever以外を抽出
+// "id"となる
+
 ```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAShCOBXAlgJwgaQiAzgHgBUA+KAXigG8BtDKZAOygGtsB7AMygIF0BaAfgBclAL5QIAD2AR6AExxQACsgDGTQgBooGEvyj0IANwioowjCKosQHLtwCwAKCdOA9K6iBo+UASDIAcGLoAyDBTIssI4wKgMAOZaAIZREEL6iAC2AEYmIoB2DIAsGoAQKi6O7lACgPYMgFUMgOsMgO0MgOcMgFMMgNcMgFYMgLUMgD8MAYCEdoDGDIBmDICyDH2AQQylgKP6gBAZgNYMzYDRDIBADE6gkFwA8mkAVmSUIWER0XEJSfSpGagiS+DQcCqsqLIEhOsbJOTUtAzMbJwEz3xJv02NG4F0cy2uCBQ6EBW3INzuDyemyIhWKgGUGLKAM8VAGAugCSGQDqDM1ACIMgAsGQAA5oAY-Smbg84NgkLQEBh23CkXoUSgAB9kukTFyoIg5BB2AwILIsoAIhkAYgzNKp1JrNfJZQAkCoBo9UA5gyAIQZZoLZMLRbIAoATBiJfUA8gyzVEeUTiKQyeRKVTqAhaHRZQAlDIBDhnagA6GeaAXQZADEMgD0GQM0m2SaRyBTBUJQVnRUHFChiSP2mPxRI8s5JjwBQCqUYBC+UAqgyBwCADCFSgZjKgy4U6QBJWTbZRqPCxvZsqIiLQAIhCvZRYKuUAAggkW0725njqdMn3M4OnLd6OE6HGm9sU1BiiZUHdl6xV8AoJnhOPoG8xMVWExLis4DhEAAbE9whnoLC4JEvHcefuyL2QA)
+
+**問83**
+
+オプショナルなキーだけをUnion型で返す型を作ってください
+
+```ts
+type OptionalKeys<T> = { [K in keyof T]-?: {} extends Pick<T, K> ? K : never }[keyof T];
+
+
+// 問題82とconditionalが逆
+ ```
+
+
+
+
+
 **問82**
 
 
