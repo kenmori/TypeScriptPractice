@@ -2302,14 +2302,64 @@ switch(someObj.type){
 
 **問81**
 
+こちらの
+
 ```ts
+
+interface Hoge {
+    a: string;
+    (arg: string): void;
+}
+
+const hoge = (arg: string) => { console.log(arg); }
+
+const a = {a: "foo"}
+
+const f: Hoge = ??
 
 ```
 
+`??`の箇所をHoge型になるように代入してください
+
+[playground](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgBIHsDmKDeAoZQ5OALmQGcwpRMBuAogCjikzMupEwEoyA3dMAAm9AL548CdCErIAFlhQBeZM1bsqNbsiUA+ZDmRSZ6ADYQAdKaxqetZOMnTZcHQdLIARDHTpPj41kYMgxsNwB+cKA)
+
+
+```ts
+interface Hoge {
+    a: string;
+    (arg: string): void;
+}
+
+const hoge = (arg: string) => { console.log(arg); }
+
+const a = { a: "foo" }
+
+const f:Hoge = Object.assign(hoge, a)
+```
+
+[playground](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgBIHsDmKDeAoZQ5OALmQGcwpRMBuAogCjikzMupEwEoyA3dMAAm9AL548CdCErIAFlhQBeZM1bsqNbsiUA+ZDmRSZ6ADYQAdKaxqetZOMnTZcHQdLIARDHTpPj41kYEgxsNwB5ACMAKwgEMAs4cnJgTBBGBWwAGmJuIA)
+
+see: (https://twitter.com/uhyo_/status/1197098731503411200?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1197098731503411200%7Ctwgr%5E&ref_url=https%3A%2F%2Ftech.dely.jp%2Fentry%2Ften_trivia_of_typescript_)
+
+
 **問82**
+
+必須プロパティのKeyをUnion型を返す型を作ってください
+
+
+```ts
+type RequireKeys<T> = {[K in keyof T]-?: {} extends Pick<T, K> ? never : K}[keyof T]
+
+```
+**問82**
+
+
+WIP
 
 ```ts
 
+keyof Record<K, T>
+Record<K, T>[K]
 ```
 
 **問83**
