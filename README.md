@@ -2345,7 +2345,7 @@ see: (https://twitter.com/uhyo_/status/1197098731503411200?ref_src=twsrc%5Etfw%7
 
 **問82**
 
-必須プロパティのKeyをUnion型を返す型を作ってください
+必須プロパティをUnion型で返す型を作ってください
 
 ```ts
 type RequireKeys<T> = {[K in keyof T]-?: {} extends Pick<T, K> ? never : K}[keyof T]
@@ -2404,23 +2404,38 @@ type OptionalKeys<T> = { [K in keyof T]-?: {} extends Pick<T, K> ? K : never }[k
  ```
 
 
+**問84**
 
 
-
-**問82**
-
-
-WIP
+`type Union = {a: "a"} | {b: "b"}` を使って `{a: "a", b: "b"}`になるような`type InterSection` を作ってください
 
 ```ts
+type GetKeys<U> = U extends Record<infer K, any> ? K : never
 
-keyof Record<K, T>
-Record<K, T>[K]
+type UnionToIntersection<U extends object> = {
+   [K in GetKeys<U>]: U extends Record<K, infer T> ? T : never
+}
+
+type Union = { a: "a" } | { b: "b" }
+type Transformed = UnionToIntersection<Union>
+
+
+//　こちらでもうまくいくが
+// const aAndB = {a: "a", b: "b"}
+// type AandB<Intersection> = { [K in keyof Intersection]: Intersection[K]}
+// type Result = AandB<typeof aAndB>
+// この場合 typeだけで作られていないので問題の趣旨と違います
 ```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBA4hwGkIgM4B4CqA+KBeKGUEAHsBAHYAmKUAShAMYD2ATpWgJbkBmELUCADRQAhuRA4A-AKgAuKOQgA3PgChVoSAXIcm5ACpMAkuTIsUjYLvKYipCtShMARgCtLOfAG9VUPwG0EKC5YeCRUTCwAXXlCEjIqGnpmNjQhYJ4+KH0pbLkFZTUAX3VNaH0WMRRuVgBbCEo8bWtDEzMLBis9NC9ReRRgFi4AcygiqAAfKF7neXIAV1rnLPGprwZ+wZGirFUgA)
 
 **問83**
 
 ```ts
+
+
+keyof Record<K, T>
+Record<K, T>[K]
 
 ```
 
@@ -2452,4 +2467,5 @@ https://tech-1natsu.hatenablog.com/entry/2019/02/09/014218
 - [TypeScript3.4 型の強化書](https://booth.pm/ja/items/1317204)
 
 - [use Partial in nested property with typescript](https://stackoverflow.com/questions/47914536/use-partial-in-nested-property-with-typescript)
+- [intersection of mapped types](https://stackoverflow.com/questions/47464913/intersection-of-mapped-types)
 
