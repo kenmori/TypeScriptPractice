@@ -2419,7 +2419,7 @@ type UnionToIntersection<U extends object> = {
 type Union = { a: "a" } | { b: "b" }
 type Transformed = UnionToIntersection<Union>
 
-
+∏
 //　こちらでもうまくいくが
 // const aAndB = {a: "a", b: "b"}
 // type AandB<Intersection> = { [K in keyof Intersection]: Intersection[K]}
