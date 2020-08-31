@@ -10,7 +10,7 @@
 WIP
 
 ```text
-- 問題を追加(2020/8/25)
+- 問題を追加(2020/8/31)
 - 問題を追加(2020/8/16)
 - 問題を修正(2020/5/10)
 - 問題を追加(2020/5/6)
@@ -2419,7 +2419,6 @@ type UnionToIntersection<U extends object> = {
 type Union = { a: "a" } | { b: "b" }
 type Transformed = UnionToIntersection<Union>
 
-∏
 //　こちらでもうまくいくが
 // const aAndB = {a: "a", b: "b"}
 // type AandB<Intersection> = { [K in keyof Intersection]: Intersection[K]}
