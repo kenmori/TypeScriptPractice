@@ -1333,6 +1333,13 @@ type UnionToIntersection<U> =
 なんで関数の引数に渡しているんだと思った。
 反変が起こる箇所(関数の引数)はintersectionTypeになる
 
+
+```ts
+type X = (1 | 2 | 3) extends (infer I) ? [I] : never;
+
+```
+
+
 [stackoverflow](https://stackoverflow.com/questions/54936474/typescript-how-to-explain-this-interaction-between-extends-and-function-type)
 
 ## 98 convariance(共変) and contravariance(反変)のわかりやすい説明
