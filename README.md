@@ -1,4 +1,4 @@
-# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/8/26)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/9/18)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
@@ -2493,6 +2493,7 @@ const keysArray2 = keys(obj) // ("foo" | "bar")[]
 ```
 
 [playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBCBGArGBeGBvAUDGAzEIAXDAET4gkA02M8AhgE7En0MmYC+mmoksA1gFMAnhACCDBnWGoYAeSSDgUAHRDRACgSIAlD3AQQAG0EqjIAOYb14ydJ0wA9I5jQGASzAWA2gF1uggAeAA4gDLC80DA2sgqISqoxdBAwADwAKgB8WsTpDiiZMBoAooFQUsqp6iC4MOmUruWeFpk6fgDc+nzRIrZSwgBMsjZaSA7ORWQEJDAAPqSsJG2+QA)
+
 
 
 **問86**
