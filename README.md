@@ -2479,6 +2479,12 @@ Object.keys()を使うと返型がstring[]になってしまいます
 推論されるようにしてください
 
 ```ts
+// Assertion
+
+const keysArray = Object.keys(obj) as (keyof typeof obj)[]
+
+// or
+
 // うまくいくkeysという関数を作ってしまう
 export const keys = Object.keys as <T>(o: T) => (Extract<keyof T, string>)[];
 
