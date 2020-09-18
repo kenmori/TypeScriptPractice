@@ -1,4 +1,4 @@
-# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/8/26)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/9/18)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
@@ -10,6 +10,7 @@
 WIP
 
 ```text
+- 問題を追加(2020/9/18)
 - 問題を追加(2020/8/31)
 - 問題を追加(2020/8/16)
 - 問題を修正(2020/5/10)
@@ -2440,9 +2441,87 @@ Record<K, T>[K]
 
 **問84**
 
+下のような
+
+```ts
+enum FooKeys {
+  FOO = 'foo',
+  BAR = 'bar',
+}
+
+```
+
+enumのvalueである`foo`と`bar`をkeyにする型を作ってください。(期待する型。type A = {foo: string, bar: string})
+
+```ts
+type A = Record<FooKeys, string>
+```
+
+
+
+**問85**
+
+このように
+
+```ts
+const obj = {
+  foo: "foo",
+  bar: "bar"
+}
+
+const keysArray = Object.keys(obj)
+console.log(keysArray) // string[]
+```
+
+Object.keys()を使うと返型がstring[]になってしまいます
+[playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBCBGArGBeGBvAUDGAzEIAXDAET4gkA02M8AhgE7En0MmYC+mmoksA1gFMAnhACCDBnWGoYAeSSDgUAHRDRACgSIAlD3AQQAG0EqjIAOYb14ydJ0wA9I5jQGASzAWA2gF1MQA)
+
+推論されるようにしてください
+
+```ts
+// Assertion
+
+const keysArray = Object.keys(obj) as (keyof typeof obj)[]
+
+// or
+
+// うまくいくkeysという関数を作ってしまう
+export const keys = Object.keys as <T>(o: T) => (Extract<keyof T, string>)[];
+
+const obj = {
+  foo: "foo",
+  bar: "bar"
+}
+
+export const keys = Object.keys as <T>(o: T) => (Extract<keyof T, string>)[];
+const keysArray2 = keys(obj) // ("foo" | "bar")[]
+
+```
+
+[playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBCBGArGBeGBvAUDGAzEIAXDAET4gkA02M8AhgE7En0MmYC+mmoksA1gFMAnhACCDBnWGoYAeSSDgUAHRDRACgSIAlD3AQQAG0EqjIAOYb14ydJ0wA9I5jQGASzAWA2gF1uggAeAA4gDLC80DA2sgqISqoxdBAwADwAKgB8WsTpDiiZMBoAooFQUsqp6iC4MOmUruWeFpk6fgDc+nzRIrZSwgBMsjZaSA7ORWQEJDAAPqSsJG2+QA)
+
+
+
+**問86**
+
 ```ts
 
 ```
+
+
+**問87**
+
+```ts
+
+```
+
+
+**問88**
+
+```ts
+
+```
+
 
 WIP
 
