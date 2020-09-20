@@ -2504,9 +2504,29 @@ const keysArray2 = keys(obj) // ("foo" | "bar")[]
 
 **問86**
 
+TypeScript(4.1)未満では[こちら](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200910#code/MYewdgzgLgBAJgQygUxgXhgCgJ7IQJwC4YwBXAWwCNl8AaGc8KAC2LKpvsRTYuvwCU6AHwwA3gCgYMfMiil8YGAAMAJGNwEAvgFp1jMC13ruyLcolaA3BImhIsWRFIAbWBlOYATAAZf9AEYfQJ8BIA)
+
 ```ts
+const date = (year: number, month: number, date: nubmer) => {
+  return `${year}-${month}-${date}`;
+};
+
+const result = date(2020, 10, 10) // string
+```
+
+のように`2020-10-10`にもかかわらず`string`として推論されてしまっていた
+`Template Literal Types`を使って`result`の型が `2020-10-10`になるようにしてください。
+
+```ts
+const date = <Y extends number, M extends number, D extends number>(year: Y, month: M, date: D) => {
+  return `${year}-${month}-${date}` as `${Y}-${M}-${D}`;
+};
+
+const result = date(2020, 10, 10) // "2020-10-10"
 
 ```
+
+[playground](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200910#code/MYewdgzgLgBAJgQygUxgXhgHgJo2QDxTDghjAFcBbAI2QCcAaGAWT0OWNIpvqYBE2REmSq06APgAUAT2QI6ALhjYmlcFAAWS5k0QolfAJTpxMAN4AoGDDrIo5OmBgADACRnZ8gL4Bad2rBNX3c9ZC9nGARSNzNsYLNmeL5wiy8AbgsLUEhYWwhyABtYDFDJACYABkqmAEYK2orDIA)
 
 
 **問87**
