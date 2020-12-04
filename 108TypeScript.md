@@ -1534,6 +1534,31 @@ or
 
 [playground](https://www.typescriptlang.org/play/?ssl=44&ssc=35&pln=41&pc=12#code/JYOwLgpgTgZghgYwgAgPIAcwGdkG8CwAUMsgPYgBiUcAthAFzIAUAlMgLwB8yAbqcABMA3ERLkAggFcBwUgGVa6ADYNkISUqUjiyCDQ1xIc0pJADGAI1KkVcENpJZFKgEqHV6mhejaAvkSIEJTgsHAA5AFE5PFESZARyLDAoSQQwUigmUkwsRgxsNgIdOLiwAAtgLAA6bOwOGOKSpvIqWghWPGRfABpYpuaQKRl5Zw8NJV7G-pI9AyMTM0ZkyQhJ6aanGmUIN0hGABZ9gEYABhO16f9CPqbgGGYwAE90CFJ72pwAQnZ2ZAAiUwCCAwUAQAR-Qo3dYqMDIADWEEejARjzeaByUOmMAyzBRyFAyHKlRqOUhU3WcTuD2er3eOQA2iiALrIb6-AFmYGg8Fkil85AAegFyAA5qRYdAoMgytAIJj+aUKtUPozESzfirmQ4FXErgq9ZcbgaxDk8hjCFchVbrTabVAIFgbDwILbXW73R7PURPT7fX7-TbAsFQshInIAEwNEoJEBJFJpDJZU3ogpR6ZE5U5epFBUtah0Dq4LoXPkSaSyBRbFSMdSaEsU2bBeaApYpVbyjajXaqQ6nc4d423e5MJ4vNEfVk-f6ArkgMEQtN8jMkuq-HM6sSUfPtQrFjvrMvDSvbGvjesKxvuYwtwlt8-8zbbbsHY5ne98qqfj773UDo03D4zWwIgrm9AMhQycCoIDIMQnCKIAGZF3iRJlgTTJAJTLBeXTJUVxwNcf03VoC13HoiLIQZyxGKsxjrCjL2bRZbxWd9O1o59kF7N8-2uckSCpEcaXHLM2WnTkQTnHlkOhCBYRRZFETRfIsAo7EpSYPECWXD4cI3QTR1pMgGWZSd2RnST5z0jc4iFZAQmQCj1hHPDNTVeycBU+lDLRZk2A1Ey1W1DdB3WULf0aQdMJUkCiCAA)
 
+
+
+## 109 inferの動き理解
+
+
+なぜこれじゃなくちゃいけないのか
+
+```ts
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+```
+
+こうじゃダメなのか
+
+```ts
+type ReturnType<T> = T extends (...args: any[]) => R ? R : any;
+```
+
+[https://stackoverflow.com/questions/60067100/why-is-the-infer-keyword-needed-in-typescript]
+
+下のRは外に型を参照している
+上のはT型のある部分を参照して型を定義している
+
+
+
+
 ## ref
 
 https://dev.to/achimoraites/typescript-tips-and-tricks-4fnh (TypeScript Tips and Tricks)
