@@ -1,4 +1,4 @@
-# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/9/18)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/9/21)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
@@ -10,6 +10,7 @@
 WIP
 
 ```text
+- 問題を追加(2020/9/21)
 - 問題を追加(2020/9/18)
 - 問題を追加(2020/8/31)
 - 問題を追加(2020/8/16)
@@ -975,7 +976,7 @@ const a = (b:NotHumman) => {
 
 なぜコンパイルエラーになるのですか？説明してください
 
-```
+```ts
 // NotHummanはAnimal型かBird型の可能性があるので、それを区別してからではないと一方にしかないproperyへのアクセスはできません。
 // 型を確定後に参照する必要があります
 type NotHumman = Animal | Bird
@@ -2341,7 +2342,7 @@ const f:Hoge = Object.assign(hoge, a)
 
 [playground](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgBIHsDmKDeAoZQ5OALmQGcwpRMBuAogCjikzMupEwEoyA3dMAAm9AL548CdCErIAFlhQBeZM1bsqNbsiUA+ZDmRSZ6ADYQAdKaxqetZOMnTZcHQdLIARDHTpPj41kYEgxsNwB5ACMAKwgEMAs4cnJgTBBGBWwAGmJuIA)
 
-see: (https://twitter.com/uhyo_/status/1197098731503411200?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1197098731503411200%7Ctwgr%5E&ref_url=https%3A%2F%2Ftech.dely.jp%2Fentry%2Ften_trivia_of_typescript_)
+[see](https://twitter.com/uhyo_/status/1197098731503411200?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1197098731503411200%7Ctwgr%5E&ref_url=https%3A%2F%2Ftech.dely.jp%2Fentry%2Ften_trivia_of_typescript_)
 
 
 **問82**
@@ -2531,9 +2532,14 @@ const result = date(2020, 10, 10) // "2020-10-10"
 
 **問87**
 
-```ts
+String Literal `"foo"` を型引数として渡すと文字の先頭を大文字にする型(`"Foo"`型)が返ってくる`GetterName<T>`を定義してください
 
+```ts
+type GetterName<T extends string> = `${capitalize T}`;
+type GotNameWithCapitalize = GetterName<'foo'>;  // 'Foo'
 ```
+
+[playground](https://www.typescriptlang.org/play?ts=4.1.0-dev.20200910#code/C4TwDgpgBA4hzAgJwHIEMC2EA8AVKEAHogHYAmAzlBcEgJYkDmAfFALxQAGAJAN4DGaMHWBoANnQBe0XAF9OAbgBQoSLAD2wdFgDqIgBYBhISPFToHOAmTacAcgBm69XeYKoUAPSeodgGLOdkA)
 
 
 **問88**
@@ -2566,4 +2572,4 @@ https://tech-1natsu.hatenablog.com/entry/2019/02/09/014218
 
 - [use Partial in nested property with typescript](https://stackoverflow.com/questions/47914536/use-partial-in-nested-property-with-typescript)
 - [intersection of mapped types](https://stackoverflow.com/questions/47464913/intersection-of-mapped-types)
-
+- [https://github.com/microsoft/TypeScript/pull/40336](https://github.com/microsoft/TypeScript/pull/40336)
