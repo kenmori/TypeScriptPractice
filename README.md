@@ -2544,8 +2544,10 @@ type GotNameWithCapitalize = GetterName<'foo'>;  // 'Foo'
 
 **問88**
 
-```ts
+プリミティブをUnion型で定義してください
 
+```ts
+type Primitive = string | number | boolean | bigint | symbol | undefined | null;
 ```
 
 
