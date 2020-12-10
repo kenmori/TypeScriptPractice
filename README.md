@@ -2550,11 +2550,26 @@ type GotNameWithCapitalize = GetterName<'foo'>;  // 'Foo'
 type Primitive = string | number | boolean | bigint | symbol | undefined | null;
 ```
 
-
-WIP
-
-
 [playgrond](https://www.typescriptlang.org/play/index.html#code/JYOwLgpgTgZghgYwgAgMoHsC2EDyAjAKwgTGQG8BYAKGVuRmCgGcwBpCATwC46WpQA5gG5qdZE2LoQAE3bdafQSJp0wAC0azOPWmWTBpPPSDjYjAX3PJz1G1WrUwHAA4oASsQCuzYADcIAApwUGDAcAA2ADwAKgB8yAC85KJ0ANoB+iDIANac6DDI0QC6APw8HgjeTH6BwaERMelFscrmyk6uyEEhYeEAogAeSM5gMQA0yKzIEAOQMkw5eQVxicgVVTXd9VErAGRdwAjZ45MtDlQIUizIcDxbvYPDoxjY+EQkEwBE6ppyn-FJSgqWgMZhsbR0T6fMYpBSSGRyHRQmHA5A-KBaeS6fSGcjIExmciWay2c6XEDXPDlLw+fz3BovXCEYhgAFE6h4AB06MxqzIdkcLhQABEIBBnPSdmygWJ0plFhx8oVSjxReLJY0As1WspqOTrghVWKJXVepFGW8WdLYWiNBjEeQDEZ8aYIBZLKT7FQgA)
+
+
+**問89**
+
+こちら
+
+```ts
+type CapitalizedString = Capitalize<'foobar'> // "Foobar"
+```
+
+型変数に小文字のstringリテラルを渡したらキャプチャライズ(一文字めが大文字)の型になる`Capitalize`を作ってください
+
+```ts
+type Capitalize<S extends string> =  intrinsic
+type CapitalizedString = Capitalize<'foobar'> //  "Foobar"
+```
+
+
+
 
 
 
@@ -2575,3 +2590,4 @@ https://tech-1natsu.hatenablog.com/entry/2019/02/09/014218
 - [use Partial in nested property with typescript](https://stackoverflow.com/questions/47914536/use-partial-in-nested-property-with-typescript)
 - [intersection of mapped types](https://stackoverflow.com/questions/47464913/intersection-of-mapped-types)
 - [https://github.com/microsoft/TypeScript/pull/40336](https://github.com/microsoft/TypeScript/pull/40336)
+- [type-challenges/type-challenges](https://github.com/type-challenges/type-challenges)
