@@ -43,7 +43,7 @@ let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig); //こ
 // config.opacityを関数内で参照する時エラー
 ```
 
-この場合 `colour` はSquareConfigに含まれていないからerror
+この場合 `colour` はSquareConfigに含まれていないからerror(typoです)
 余分にあるpropertyとなる
 余分なpropertyを許可する場合
 
@@ -67,7 +67,7 @@ var fff: UnionToIntersection<{ a: string }> = { a: "1" }
 ```
 
 次のここ
-[stackoverflow](https://stackoverflow.com/a/53955431])
+[stackoverflow](https://stackoverflow.com/a/53955431)
 
 ```ts
 type IsUnion<T> = [T] extends [UnionToIntersection<T>] ? false : true;
