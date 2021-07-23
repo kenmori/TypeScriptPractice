@@ -1,4 +1,4 @@
-# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2020/9/21)
+# TypeScript 練習問題集(Practice TypeScript and Playground) latest update(2021/2/27)
 
 <img src="https://kenjimorita.jp/wp-content/uploads/2019/02/8a154126e82bbd3957478cedded330b3.png" width="400" />
 
@@ -10,6 +10,7 @@
 WIP
 
 ```text
+- 問題を修正(2021/2/27)
 - 問題を追加(2020/9/21)
 - 問題を追加(2020/9/18)
 - 問題を追加(2020/8/31)
@@ -57,7 +58,7 @@ const greeting = (value: string) => "hello!" + value
 こちら
 
 ```ts
-interface Foo {
+type Foo = {
     bar: string;
     baz: number;
 }
@@ -65,9 +66,13 @@ interface Foo {
 
 Fooが持つプロパティ全てoptionalにしてください
 
+
 ```ts
 type PartialFoo = Partial<Foo>;
 ```
+
+[playground](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgGIHt3IN4ChkHIBGcUAXMgM5hSgDmA3PoSQF4UgCuAtkdEwF9cuMAE8ADigAKpMMDgAbDFgC8yGVDmKAPMoB8QA)
+
 
 **問2**
 
@@ -83,8 +88,11 @@ type Foo = {
 Fooが持つプロパティ全て必須にしてください
 
 ```ts
-type RequireA = Required<Foo>;
+type RequiredFoo = Required<Foo>;
 ```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAYg9nKBeKBvAUFLUB2BDAWwgH4AuKAZ2ACcBLHAcwG5Ns8GTycBXAgIwjUWAX3TpQkKACUIAR261qEACbxEKGfMUqAPGoB8QA)
+
 
 **問3**
 
@@ -100,8 +108,10 @@ type Foo = {
 の`Foo`から`name`だけを取得したtypeを作ってください
 
 ```ts
-type Picked = Pick<Foo, "name">
+type Name = Pick<Foo, "name">
 ```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAYg9nKBeKBvAUFLUB2BDAWwgH4AuKAZ2ACcBLHAcwG5Ns8GTycBXAgIwjUWAX3TpQkKADlC0FAAVaAYwDWAHnhwANFABE+IroB8QA)
 
 **問4**
 
@@ -117,12 +127,10 @@ type Foo = {
 `Foo`から`age`を省略した型を作ってください
 
 ```ts
-type Omited = Omit<Foo, "age">;
-
-// Omited {
-//    name?: string | undefined;
-// }
+type Age = Omit<Foo, "age">;
 ```
+
+[playground](https://www.typescriptlang.org/play?#code/C4TwDgpgBAYg9nKBeKBvAUFLUB2BDAWwgH4AuKAZ2ACcBLHAcwG5Ns8GTycBXAgIwjUWAX3TpQkKAEEOyKAHkCtYAB54cADRQARPiLaAfEA)
 
 **問5**
 
@@ -133,6 +141,8 @@ const user = { name: "kenji", age: 98 };
 ```
 
 のuserに推論される型は何ですか。またその理由を教えてください。
+
+[playground](https://www.typescriptlang.org/play?#code/MYewdgzgLgBArhApgJxgXhgbxmAhgW0QC4YAiAa0TACsBLUgGhlwHNiYBOADhgF8BuAFBA)
 
 ```ts
 { name: string, age: number }
@@ -169,7 +179,7 @@ T extends U ? X : Y;
 下記
 
 ```ts
-interface Part {
+type Part = {
   name: string,
   age: number,
   add(): number
@@ -179,7 +189,7 @@ interface Part {
 メソッド名だけ取り出した型を作ってください
 
 ```ts
-interface Part {
+type Part = {
   name: string,
   age: number,
   add(): number
@@ -205,8 +215,6 @@ type result = FunctionPropertyNames<Part>
 neverとはどんな型ですか
 
 ```ts
-・絶対にreturnされない関数
-・常にthrowされる関数
 
 例えば
 
@@ -233,20 +241,23 @@ if(bool){
 
 // 2. return文が無く、かつ(無限ループなどで)関数末尾に到達しない関数/アロー関数に対して推論される戻り値の型
 ```
+[playground](https://www.typescriptlang.org/play?#code/FAMwrgdgxgLglgewgAhAhAKAHgLmQZxgCc4IBzZAH2QjAFsAjAUyIEo8H0AbJgQxQDewZMjghkGGAE8ADkwTisyALyrkAIkIly61siEiRRJjDBEUxMEwDcw5AF9kTLviajxk2fMUq162owsuvp2RiZmKCC8LjZ29nbGpuaovHBcGOoAqhBMWAAWvGCEcABuTACEutbIAPQ1gMoM9YD2DIkRgKoMgDEMgFYMgCIMgHYMgOYMNExlRIAyDIAr8YDGDIBmDD2A0QyAQAycCDz8gNHqk-OARamADqZdgwCiREQIRMDxoJCwiJGp6XRM+Pi8ZEx4WqRk7MOj+sgwPKnADuw1Bx1ORAwj2eryYrGqjjqyEAHHqAawZASDOvNBjlRpsJvNgMTkQBGAB0yHWgArjQBrUX1AAq+gBzzQCADIA15UAUQyAdP15ptAISOPUAbU6AaUM0V0poB9BkAQmZ9QCQmrtAN8MgEOGQDPDIAFhkAPwxowAbcoBFBkAkQwdXnEqBIQjIFZcFQAohWYBiDCW1gGQymiDm3jWy3VZGWvgQC5OGIhQzIN3mhhe7g+mq-FgXIA)
 
  **問9**
 
 これは
 
 ```ts
-(...args: any[]) => any
+type A = (...args: any[]) => any
 ```
 
- どういう意味ですか？
+ どういう型を表していますか？
 
  ```ts
 // 関数ならなんでもOK
  ```
+
+ [playground](https://www.typescriptlang.org/play?ssl=1&ssc=33&pln=1&pc=1#code/C4TwDgpgBAglC8UAUA6NBDATgcwM4C4p0A7EAbQF0BKBAPiNKAs)
 
  Type inference in Conditional types
 
@@ -255,25 +266,25 @@ if(bool){
 これは
 
  ```ts
- type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+ type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
 
  ```
 
  なにをする型か説明してください(とくに`infer`)
 
  ```ts
-// Tが関数ならその関数の戻り値をRにキャプチャしてそれを返す
+// Tが関数ならその関数の戻り値をRにキャプチャしてそれを返しています。
+// inferはその場所に型変数と一緒に置くことでそこに推論される型を作り、利用できます
 ```
+
+[playgrond](https://www.typescriptlang.org/play?#code/C4TwDgpgBAsiBKFgFcBOA7AKuCAeTAfFALxSZQQAewE6AJgM5QAUAdOwIaoDmDAXFA7oQAbQC6AShJEAlugBmEVFHhQA-CqgChIANwAoIA)
 
   **問11**
 
  非同期の中身を取る型を書いてください
 
  ```ts
-type ResolvedType<T> =
-T extends Promise<infer R> ? R :
-T extends Observable<infer R> ? R :
-T;
+ WIP
 ```
 
 **問12**
@@ -283,10 +294,11 @@ Nullableな型を作ってください
 ```ts
 type PropNullable<T> = {[P in keyof T]: T[P] | null};
 
-interface User { name: string, age: number, money: null }
+type User = { name: string, age: number, money: null }
 
 const obj:PropNullable<User> = { name: "kenji", age: 99, money: null }
 ```
+[playground](https://www.typescriptlang.org/play?ssl=5&ssc=1&pln=5&pc=71#code/C4TwDgpgBACgTgezAOQK4Bt0EMBG6IA8AKgHxQC8UA3gNoxQCWAdlANYQgIBmURAugC5edPlAA+UJhnQBfANwAoBaEhQAqgGcIcCtUlYAthCEbgcZgHMANFCwXjk1AZzabBhEw5CpmKDKUAxh6mUAg4AFYC8EhomLj4BJraZJRU+kZCAETsTOEMmTZ2DgCcxW4eXo6+MkA)
 
 **問13**
 
